@@ -14,11 +14,11 @@ import sys      #Módulo que prove recursos relacionados ao interpretador
 
 #CREDENCIAIS----------------------------------------------------------------------------------------------------------------
 
-token=                  ''      #Token
-consumer_key =          ''      #Consumer Key (API Key)
-consumer_secret=        ''      #Consumer Secret (API Secret)
-access_token=           ''      #Access Token
-access_token_secret=    ''      #Access Token Secret
+token=                  'NDY4ODI1OTAwNzQ2NTM5MDA4.Di_TaQ.kP42Lt9eXkyMfMB_1w2p2YKq9wM'       #Token
+consumer_key =          'BOAs4wfRHO5ShFjojLPzLdK3B'                                         #Consumer Key (API Key)
+consumer_secret=        'BUcAlFriglp6RkLzVvkZ8b3zYUNLtqvAwGGWs7YudLLQWnO1Gi'                #Consumer Secret (API Secret)
+access_token=           '1019318137605513218-UzaJyIKGjSL8EQ6fta4L5BlhnFRytJ'                #Access Token
+access_token_secret=    'M5fauDKnuJt3yC3RdxMM7Wr1NFBzhruuc51DGo21nbSk0'                     #Access Token Secret
 
 #COFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
@@ -103,7 +103,7 @@ class Informativo:
     async def info(self):
         embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
         embed.add_field (name="Descrição", value="Vamo esculachar!!")
-        embed.add_field (name="Gmail e Twitter",value='')
+        embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com:zeromildao')
         await bot.say(embed=embed)
 
 #Adicionamos os comandos da categora informativo
@@ -113,5 +113,3 @@ bot.add_cog(Informativo())
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
 bot.run(token)
-
-
