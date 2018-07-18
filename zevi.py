@@ -145,14 +145,19 @@ descri=descri+"Philadelphia Fusion: philadelphia,fusion"
 #Comando para apostar na liga
 @bot.command(name='aposta', 
                 description=descri,
-                brief="Apostas do dia na Overwatch League", #Descrição que aparece no !help
-                aliases=[ 'liga','ow','overwatch'], #Outras formas de chamar a mesma função
-                pass_context=True)  #Se vai passar o contexto
+                brief="Apostas do dia na Overwatch League", 
+                aliases=[ 'liga','ow','overwatch'],
+                pass_context=True)
 async def aposta(context,time1,placar1,x,placar2,time2,*data):
     #context    - Informações sobre a mensagem que foi enviada.
-
+    #time1      - Nome de algum time
+    #placar1    - Placar correspondente a este time
+    #x          - Versus
+    #time2      - Nome do outro time
+    #placar2    - Placar correspondente a este outro time
+    #*data      - Data da aposta (opcional)
+    
     apostador=str(context.message.author) #Para sabermos quem esta apostando
-
 
     #Dicionários que vamos utilizar
     dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
@@ -211,6 +216,33 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
     planilha.update_cell(linha, nos[apostador], aposta)
 
     await bot.say("Aposta feita!")
+
+#Comando para consultar os jogos da liga
+@bot.command(name='jogos', 
+                description="Consulte os jogos da lida do dia com o padrão de data 18/07. Sem informar a data, veja os jogos de hoje.",
+                brief="Consulte os jogos da liga", 
+                aliases=[ 'jogo'],
+                pass_context=False)  
+async def jogos(*data):
+    #*data      - Data em que queremos ver os jogos
+    
+    dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
+
+    if (len(data)==0):  #Se não passamos nenhuma data, é do dia de hoje que queremos ver os jogos
+        dia = dsem[datetime.date.today().strftime("%w")]+ " - " + datetime.date.today().strftime("%d") +"/"+datetime.date.today().strftime("%m")
+    else:               #Se não, usamos a data informada
+        dados=data[0].split("/")       
+        data=datetime.date(2018, int(dados[1]), int(dados[0]))  
+        dia = dsem[data.strftime("%w")]+ " - " + data.strftime("%d") +"/"+data.strftime("%m") 
+
+    #Buscamos todos os jogos do dia em questão
+    jogos = planilha.findall(dia)
+
+    #Então podemos percorrer cada um dos elementos e imprimir os jogos:
+    partidas=""            #Onde vamos guardar os jogos
+    for jogo in jogos:
+             partidas=partidas+ planilha.cell(jogo.row, jogo.col+1).value+' x '+planilha.cell(jogo.row, jogo.col+3).value+"\n"
+    await bot.say(partidas)
     
 
 #Criamos uma categoria de comandos
