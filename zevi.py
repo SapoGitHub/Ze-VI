@@ -27,10 +27,11 @@ access_token_secret = os.environ['access_token_secret']     #Access Token Secret
 #Vamos montar nossa private_key
 var_amb=os.environ["private_key"]   #Recebemos a variável
 dividido=var_amb.split("\n")          #Dividimos onde tem \n
-chave=""                          #Onde vamos remontar
-for linha in dividido:
-    print(linha)
-    chave=chave+linha+"\n"
+print(dividido)
+#chave=""                          #Onde vamos remontar
+#for linha in dividido:
+#    print(linha)
+#    chave=chave+linha+"\n"
 
 
 login = {                                                                                   #Dados do API do Google
