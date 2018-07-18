@@ -13,13 +13,13 @@ import json     #Biblioteca para lidar com o JSON
 import sys      #Módulo que prove recursos relacionados ao interpretador
 import os       #Biblioteca para lidar com o Sistema Operacional
 
-#CREDENCIAIS----------------------------------------------------------------------------------------------------------------
+#DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
 
-#token=                  VARIÁVEL DE AMBIENTE   #Token
-#consumer_key =          VARIÁVEL DE AMBIENTE   #Consumer Key (API Key)
-#consumer_secret=        VARIÁVEL DE AMBIENTE   #Consumer Secret (API Secret)
-#access_token=           VARIÁVEL DE AMBIENTE   #Access Token
-#access_token_secret=    VARIÁVEL DE AMBIENTE   #Access Token Secret
+token = os.environ['token']                                 #Token
+consumer_key = os.environ['consumer_key']                   #Consumer Key (API Key)
+consumer_secret = os.environ['consumer_secret']             #Consumer Secret (API Secret)
+access_token = os.environ['access_token']                   #Access Token
+access_token_secret = os.environ['access_token_secret']     #Access Token Secret
 
 #COFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
@@ -31,8 +31,8 @@ async def on_ready():
     print(bot.user.name)
 
 #CONEXÃO TWITTER-------------------------------------------------------------------------------------------------------------
-auth = tweepy.OAuthHandler(os.environ['consumer_key'], os.environ['consumer_secret'])
-auth.set_access_token(os.environ['access_token'], os.environ['access_token_secret'])
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
@@ -104,11 +104,12 @@ class Informativo:
     async def info(self):
         embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
         embed.add_field (name="Descrição", value="Vamo esculachar!!")
-        embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com:zeromildao')
+        embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com')
+        embed.add_field (name="Versão",value='Nem sei')
         await bot.say(embed=embed)
 
 #Adicionamos os comandos da categora informativo
 bot.add_cog(Informativo())
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
-bot.run(os.environ['token'])
+bot.run(token)
