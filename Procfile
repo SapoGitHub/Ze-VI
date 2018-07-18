@@ -1,1 +1,1 @@
-python zevi.py
+worker: python zevi.py
