@@ -1,5 +1,5 @@
 discord.py
 tweepy
-google-api-python-client
+gspread
 oauth2client
 PyOpenSSL
