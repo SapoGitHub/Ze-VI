@@ -26,7 +26,7 @@ access_token_secret = os.environ['access_token_secret']     #Access Token Secret
 
 #Vamos montar nossa private_key
 var_amb=os.environ["private_key"]   #Recebemos a variável
-dividido=frase.split("\n")          #Dividimos onde tem \n
+dividido=var_amb.split("\n")          #Dividimos onde tem \n
 chave=""                          #Onde vamos remontar
 for linha in dividido:
     chave=chave+linha+"\n"
