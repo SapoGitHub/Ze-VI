@@ -11,14 +11,9 @@ from discord.ext import commands
 import tweepy   #Biblioteca para lidar com o Twitter
 import json     #Biblioteca para lidar com o JSON
 import sys      #Módulo que prove recursos relacionados ao interpretador
+import os       #Biblioteca para lidar com o Sistema Operacional
 
 #CREDENCIAIS----------------------------------------------------------------------------------------------------------------
-
-token=                  'NDY4ODI1OTAwNzQ2NTM5MDA4.Di_TaQ.kP42Lt9eXkyMfMB_1w2p2YKq9wM'       #Token
-consumer_key =          'BOAs4wfRHO5ShFjojLPzLdK3B'                                         #Consumer Key (API Key)
-consumer_secret=        'BUcAlFriglp6RkLzVvkZ8b3zYUNLtqvAwGGWs7YudLLQWnO1Gi'                #Consumer Secret (API Secret)
-access_token=           '1019318137605513218-UzaJyIKGjSL8EQ6fta4L5BlhnFRytJ'                #Access Token
-access_token_secret=    'M5fauDKnuJt3yC3RdxMM7Wr1NFBzhruuc51DGo21nbSk0'                     #Access Token Secret
 
 #COFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
@@ -30,8 +25,8 @@ async def on_ready():
     print(bot.user.name)
 
 #CONEXÃO TWITTER-------------------------------------------------------------------------------------------------------------
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
+auth = tweepy.OAuthHandler(os.environ['consumer_key'], os.environ['consumer_secret'])
+auth.set_access_token(os.environ['access_token'], os.environ['access_token_secret'])
 api = tweepy.API(auth)
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
@@ -112,4 +107,4 @@ bot.add_cog(Informativo())
 #ZONA DE TESTES FORA DO DISCORD---------------------------------------------------------------------------------------------
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
-bot.run(token)
+bot.run(os.environ['token'])
