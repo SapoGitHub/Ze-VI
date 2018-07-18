@@ -40,7 +40,7 @@ login = {                                                                       
     "client_id": os.environ['client_id'],
     }
 
-#COFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
+#CONFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
 
 #Vamos printar quando conectar ao discord
@@ -130,7 +130,7 @@ async def opina(*assunto):
 descri="Faça apostas nos jogos do dia da liga Overwatch usando uma palavra para cada time e com espaço entre os elementos.\nEx.: shangai 3 x 0 gladiators.\n\nSinônimos:\n"
 descri=descri+"Shanghai Dragons: shanghai,dragons,xangai dragons\n"
 descri=descri+"Los Angeles Gladiators: gladiators\n"
-descri=descri+"San Francisco Shock: schock,sa\n"
+descri=descri+"San Francisco Shock: schock,sf\n"
 descri=descri+"Los Angeles Valiants: valiants\n"
 descri=descri+"Dallas Fuel: dallas,fuel\n"
 descri=descri+"Seoul Dynasty: seoul,seul,dynasty\n"
@@ -155,7 +155,7 @@ async def aposta(context,time1,placar1,x,placar2,time2):
     times = {   #Sinônimos para os nomes dos times
         "Shanghai Dragons":("shanghai","dragons","xangai dragons","shangai"),
         "Los Angeles Gladiators":("gladiators"),
-        "San Francisco Shock":("schock","sa"),
+        "San Francisco Shock":("schock","sf"),
         "Los Angeles Valiants":("valiants"),
         "Dallas Fuel":("dallas","fuel"),
         "Seoul Dynasty":("seoul","seul","dynasty"),
@@ -180,7 +180,7 @@ async def aposta(context,time1,placar1,x,placar2,time2):
         if time2.lower() in times[tm]:
             timeshj[1]=tm
             break
-        
+
     #Buscamos todos os jogos do dia
     jogos = planilha.findall(dia)
 
