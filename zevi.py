@@ -2,7 +2,7 @@
 ##Desenvolvido por:     Jhordan Silveira de Borba
 ##E-mail:               jhordandecacapava@gmail.com
 ##Website:              https://sapogithub.github.io
-##Mais informações:     https://github.com/SapoGitHub/Repositorio-Geral/wiki/Zé-VI
+##Mais informações:     https://github.com/SapoGitHub/Ze-VI/wiki
 ##2018
 
 import random                       #Biblioteca para comandos aleatorios
@@ -14,6 +14,12 @@ import sys      #Módulo que prove recursos relacionados ao interpretador
 import os       #Biblioteca para lidar com o Sistema Operacional
 
 #CREDENCIAIS----------------------------------------------------------------------------------------------------------------
+
+#token=                  VARIÁVEL DE AMBIENTE   #Token
+#consumer_key =          VARIÁVEL DE AMBIENTE   #Consumer Key (API Key)
+#consumer_secret=        VARIÁVEL DE AMBIENTE   #Consumer Secret (API Secret)
+#access_token=           VARIÁVEL DE AMBIENTE   #Access Token
+#access_token_secret=    VARIÁVEL DE AMBIENTE   #Access Token Secret
 
 #COFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
@@ -103,8 +109,6 @@ class Informativo:
 
 #Adicionamos os comandos da categora informativo
 bot.add_cog(Informativo())
-
-#ZONA DE TESTES FORA DO DISCORD---------------------------------------------------------------------------------------------
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
 bot.run(os.environ['token'])
