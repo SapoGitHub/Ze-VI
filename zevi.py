@@ -133,7 +133,9 @@ async def opina(*assunto):
     
 
 #Descrição do comando da aposta:
-descri="Faça apostas nos jogos do dia da liga Overwatch usando uma palavra para cada time e com espaço entre os elementos, com a data opcional se não for no dia.\nEx.: shanghai 3 x 0 gladiators 18/07.\n\nSinônimos:\n"
+descri="Faça apostas nos jogos do dia da liga Overwatch usando uma palavra para cada time e com espaço entre os elementos, com a data opcional se não for no dia."
+descri=descri+"E se tiver mais de um jogo no dia, pode especificar qual jogo.\nEx.:Para apostar no segundo jogo entre shanguai e gladiators no dia 18/07, use:\n"
+descri=descri+"!aposta shanghai 3 x 0 gladiators 18/07 2.\n\nSinônimos:\n"
 descri=descri+"Shanghai Dragons: shanghai,dragons,xangai dragons\n"
 descri=descri+"Los Angeles Gladiators: gladiators\n"
 descri=descri+"San Francisco Shock: schock,sf\n"
@@ -183,8 +185,8 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
         dia = dsem[datetime.date.today().strftime("%w")]+ " - " + datetime.date.today().strftime("%d") +"/"+datetime.date.today().strftime("%m")
     else:               #Se não, usamos a data informada
         dados=data[0].split("/")       #Vamos dividir entre dia e mês
-        data=datetime.date(2018, int(dados[1]), int(dados[0]))  #Construir uma data a partir disto
-        dia = dsem[data.strftime("%w")]+ " - " + data.strftime("%d") +"/"+data.strftime("%m") #E salvar
+        data_form=datetime.date(2018, int(dados[1]), int(dados[0]))  #Construir uma data a partir disto
+        dia = dsem[data_form.strftime("%w")]+ " - " + data_form.strftime("%d") +"/"+data_form.strftime("%m") #E salvar
 
     timeshj=["",""]     #Onde vamos guardar os dois times que foram passados
     #Precisamos pegar o nome correto do primeiro time
@@ -201,15 +203,22 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
 
     #Buscamos todos os jogos do dia
     jogos = planilha.findall(dia)
-
+    c=1             #Vamos adicionar um contador caso tenha mais de um jogo
     #Então podemos percorrer cada um dos elementos:
     for jogo in jogos:
         #E checar se o jogo desse dia é o que nos interessa:
         if ((planilha.cell(jogo.row, jogo.col+1).value == timeshj[0] or planilha.cell(jogo.row, jogo.col+1).value == timeshj[1])
             and
             (planilha.cell(jogo.row, jogo.col+3).value == timeshj[0] or planilha.cell(jogo.row, jogo.col+3).value == timeshj[1])):
-            linha=jogo.row  #Se é retornamos a linha
-            break
+            if (len(data)<=1):  #Se não informamos o dia, ou informamos somente o dia, é um dia de um único jogo
+                linha=jogo.row  #Retornamos a linha
+                break           #E saimos
+            else:               #Se não temos um dia de jogos repetidos
+                if (int(data[1])==c):#Se queremos do jogo em questão:
+                    linha=jogo.row  #Retornamos a linha
+                    break           #E saimos
+                else:
+                    c=c+1           #Se não, vamos procurar o proximo jogo
 
     #Com a linha vamos montar nossa aposta, primeiro precisamos saber a ordem
     if (planilha.cell(linha, 2).value==timeshj[0]):
@@ -220,7 +229,13 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
     #Agora precisamos salvar a aposta, dependendo de quem apostou
     planilha.update_cell(linha, nos[apostador], aposta)
 
-    await bot.say("Aposta feita!")
+    #Vamos adicionar uma mensagem de apoio ao time vencedor.
+    fala= "Aposta feita! Vai "   #Começo da fala
+    if (int(placar1)>int(placar2)):
+        fala=fala+timeshj[0]+"!"
+    else:
+        fala=fala+timeshj[1]+"!"
+    await bot.say(fala)
 
 #Comando para consultar os jogos da liga
 @bot.command(name='jogos', 
@@ -261,7 +276,7 @@ class Informativo:
         embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
         embed.add_field (name="Descrição", value="Vamo esculachar!!")
         embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-        embed.add_field (name="Versão",value='Era um garoto que como eu amava os Beatles e os Rolling Stones')
+        embed.add_field (name="Versão",value='Sou um passageiro, passageiro de algum trem.')
         await bot.say(embed=embed)
 
 #Adicionamos os comandos da categora informativo
