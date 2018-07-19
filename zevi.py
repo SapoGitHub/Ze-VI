@@ -55,16 +55,18 @@ api = tweepy.API(auth)
 print("Conectado ao Twitter.")
 
 #CONEXÃO PLANILHA DO GOOGLE--------------------------------------------------------------------------------------------------
-#Precisamos usar o scope ao adquirir um token de acesso
-scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
 
-#Obtemos as credenciais
-credenciais = ServiceAccountCredentials.from_json_keyfile_dict(login, scope)
+def conecta_planilha():
+    #Precisamos usar o scope ao adquirir um token de acesso
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
 
-google = gspread.authorize(credenciais)     #Conectamos
-planilha = google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
-print("Conectado à planilha.")
+    #Obtemos as credenciais
+    credenciais = ServiceAccountCredentials.from_json_keyfile_dict(login, scope)
+
+    google = gspread.authorize(credenciais)     #Conectamos
+    planilha = google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
+    print("Conectado à planilha.")
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 #Comando da Bola 8
@@ -156,6 +158,8 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
     #time2      - Nome do outro time
     #placar2    - Placar correspondente a este outro time
     #*data      - Data da aposta (opcional)
+
+    conecta_planilha()      #Se conecta com a planilha
     
     apostador=str(context.message.author) #Para sabermos quem esta apostando
 
@@ -225,6 +229,7 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
                 pass_context=False)  
 async def jogos(*data):
     #*data      - Data em que queremos ver os jogos
+    conecta_planilha()      #Se conecta com a planilha
     
     dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
 
