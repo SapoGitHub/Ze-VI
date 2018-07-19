@@ -65,8 +65,9 @@ def conecta_planilha():
     credenciais = ServiceAccountCredentials.from_json_keyfile_dict(login, scope)
 
     google = gspread.authorize(credenciais)     #Conectamos
-    planilha = google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
-    print("Conectado à planilha.")
+    print("Conectado ao Google.")
+
+    return google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 #Comando da Bola 8
@@ -159,7 +160,7 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
     #placar2    - Placar correspondente a este outro time
     #*data      - Data da aposta (opcional)
 
-    conecta_planilha()      #Se conecta com a planilha
+    planilha = conecta_planilha()      #Se conecta com a planilha
     
     apostador=str(context.message.author) #Para sabermos quem esta apostando
 
@@ -229,7 +230,7 @@ async def aposta(context,time1,placar1,x,placar2,time2,*data):
                 pass_context=False)  
 async def jogos(*data):
     #*data      - Data em que queremos ver os jogos
-    conecta_planilha()      #Se conecta com a planilha
+    planilha = conecta_planilha()      #Se conecta com a planilha
     
     dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
 
@@ -260,7 +261,7 @@ class Informativo:
         embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
         embed.add_field (name="Descrição", value="Vamo esculachar!!")
         embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-        embed.add_field (name="Versão",value=' jajaja')
+        embed.add_field (name="Versão",value='Era um garoto que como eu amava os Beatles e os Rolling Stones')
         await bot.say(embed=embed)
 
 #Adicionamos os comandos da categora informativo
