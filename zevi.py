@@ -16,8 +16,6 @@ import gspread                                                      #Biblioteca 
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 import datetime                                                     #Biblioteca com funções relacionadas ao tempo
 from repustate import Client                                        #Biblioteca para fazer análise de sentimento
-from langdetect import detect                                       #Biblioteca para detectar o idioma (repustate tem a função)
-
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
 #Vamos montar nossa private_key do Google
@@ -297,15 +295,18 @@ async def popularidade(*assunto):
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                #Vamos percorrer os tweets
+        non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
+        #Emojis não suportados são convertidos para caracteres suportados.
+
             frase=(tweet.full_text)         #E guardar a frase
             if (len(frase)==0):             #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
-                idioma=detect(frase)        #Detectamos o idioma
+                idioma=client.detect_language(frase)['language'].split('_')[0]) #Detectamos o idioma
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
-                    sentimentos.append(float(rep['score']))      #Salvamos o resultado
+                    sentimentos.append(float(rep['score']),emoji=0)      #Salvamos o resultado
                 
         if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
             await bot.say("Ninguém mais fala disso.")
