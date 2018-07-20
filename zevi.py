@@ -291,10 +291,9 @@ async def popularidade(*assunto):
         busca=busca+palavra+' ' 
 
     if (api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']>0):                   #Checamos se temos busca sobrando
-        tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(100) #Se tem buscamos
+        tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(10) #Se tem buscamos
 
-        non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
-        #Emojis não suportados são convertidos para caracteres suportados. 
+        non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd) #Emojis não suportados são convertidos para caracteres suportados. 
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                                #Vamos percorrer os tweets
