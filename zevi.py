@@ -298,8 +298,8 @@ async def popularidade(*assunto):
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                                #Vamos percorrer os tweets
-            frase=(tweet.full_text).translate(non_bmp_map)) #E guardar a frase sem emoji
-            ok=False                                         #Se o texto pode ser traduzido
+            frase=(tweet.full_text).translate(non_bmp_map)  #E guardar a frase sem emoji
+            ok=False                                        #Se o texto pode ser traduzido
 
             for palavra in frase:                           #Vamos analizar letra por letra
                 assi=ord(palavra)                           #Pegar o código ASCI da letra
