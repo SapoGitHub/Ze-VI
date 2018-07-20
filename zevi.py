@@ -303,7 +303,7 @@ async def popularidade(*assunto):
 
             for palavra in frase:                           #Vamos analizar letra por letra
                 assi=ord(palavra)                           #Pegar o código ASCI da letra
-                if ((assi>=65 and assi<=90) or (assi>=97 and assi<=122)or (assi>=192 and assi<=255)) #Se for uma letra
+                if ((assi>=65 and assi<=90) or (assi>=97 and assi<=122) or (assi>=192 and assi<=255)): #Se for uma letra
                     ok= True                                #Pode ser traduzido
                     break                                   #Retornamos
                 
