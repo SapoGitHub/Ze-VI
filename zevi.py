@@ -73,8 +73,8 @@ def conecta_planilha():
 
 conecta_planilha()  #Vamos conectar uma vez pra testar
 #CONEXÃO REPUSTATE----------------------------------------------------------------------------------------------------------
-#client = Client(api_key=api_key, version='v4')
-#print("Conectado ao Repustate.") 
+client = Client(api_key=api_key, version='v4')
+print("Conectado ao Repustate.") 
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 #Comando da Bola 8
@@ -301,29 +301,28 @@ async def popularidade(*assunto):
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
                 idioma=detect(frase)        #Detectamos o idioma
-##            if idioma in linguas:           #Se o repustate dá suporte
-##                rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
-##                if (rep['status']=='OK'):                       #Se deu certo
-##                    sentimentos.append(float(rep['score']))      #Salvamos o resultado
-##                
-##        if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
-##            await bot.say("Ninguém mais fala disso.")
-##        else:                    #Se tem, calculamos a média
-##            soma=0
-##            for s in sentimentos:
-##                soma=soma+s
-##            media=soma/len(sentimentos)
-##            if (media>0.5):
-##                op='positiva.'
-##            elif(media>0):
-##                op='um pouco positiva.'
-##            elif(media>-0,5):
-##                op='um pouco negativa.'
-##            else:
-##                op='negativa.'
-##            op="A opinião publica sobre "+busca+"é "+op
-##            await bot.say(op)
-        await bot.say("Acabou a cota do Repostate")
+            if idioma in linguas:           #Se o repustate dá suporte
+                rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
+                if (rep['status']=='OK'):                       #Se deu certo
+                    sentimentos.append(float(rep['score']))      #Salvamos o resultado
+                
+        if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
+            await bot.say("Ninguém mais fala disso.")
+        else:                    #Se tem, calculamos a média
+            soma=0
+            for s in sentimentos:
+                soma=soma+s
+            media=soma/len(sentimentos)
+            if (media>0.5):
+                op='positiva.'
+            elif(media>0):
+                op='um pouco positiva.'
+            elif(media>-0,5):
+                op='um pouco negativa.'
+            else:
+                op='negativa.'
+            op="A opinião publica sobre "+busca+"é "+op
+            await bot.say(op)
 
     else:                                                                                                   #Se não temos busca sobrando, avisamos
         await bot.say('Estou cansado, me pergunte mais tarde.')
