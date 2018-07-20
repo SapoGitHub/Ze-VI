@@ -292,7 +292,7 @@ async def popularidade(*assunto):
         busca=busca+palavra+' ' 
 
     if (api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']>0):                   #Checamos se temos busca sobrando
-        tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(10) #Se tem buscamos
+        tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(100) #Se tem buscamos
 
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
