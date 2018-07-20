@@ -304,7 +304,11 @@ async def popularidade(*assunto):
             except:
                 idioma="xx"                 #Se não guardamos um idioma falso               
             if idioma in linguas:           #Se o repustate dá suporte
-                rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
+                try:
+                    rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
+                except:
+                    await bot.say("Acabou minha cota de análise.")  #Ou avisamos que acabou a cota
+                    
                 if (rep['status']=='OK'):                       #Se deu certo
                     sentimentos.append(float(rep['score']))      #Salvamos o resultado
                 
