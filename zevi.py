@@ -299,19 +299,10 @@ async def popularidade(*assunto):
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                                #Vamos percorrer os tweets
             frase=(tweet.full_text).translate(non_bmp_map)  #E guardar a frase sem emoji
-            ok=False                                        #Se o texto pode ser traduzido
-
-            for palavra in frase:                           #Vamos analizar letra por letra
-                assi=ord(palavra)                           #Pegar o código ASCI da letra
-                if ((assi>=65 and assi<=90) or (assi>=97 and assi<=122) or (assi>=192 and assi<=255)): #Se for uma letra
-                    ok= True                                #Pode ser traduzido
-                    break                                   #Retornamos
-                
-            if (len(frase)==0 or ok== False ):      #Se não tem texto
-                idioma='xx'                 #Adicionamos um codigo flaso
-            else:                           #Se tem, detectamos o idioma
-                print(frase)
-                idioma=detect(frase)        #Detectamos o idioma
+            try:                            #Tentamos detectar o idioma
+                idioma = detect(frase)
+            except:
+                idioma="xx"                 #Se não guardamos um idioma falso               
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
