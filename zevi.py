@@ -307,7 +307,6 @@ async def popularidade(*assunto):
                     ok= True                                #Pode ser traduzido
                     break                                   #Retornamos
                 
-            for palavra em 
             if (len(frase)==0 or ok== False ):      #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
