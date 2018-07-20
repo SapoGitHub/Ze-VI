@@ -298,7 +298,10 @@ async def popularidade(*assunto):
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                #Vamos percorrer os tweets
             frase=(tweet.full_text)         #E guardar a frase
-            idioma=detect(frase)            #Detectamos o idioma
+            if (len(frase)==0):             #Se não tem texto
+                idioma='xx'                 #Adicionamos um codigo flaso
+            else:                           #Se tem, detectamos o idioma
+                idioma=detect(frase)        #Detectamos o idioma
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
