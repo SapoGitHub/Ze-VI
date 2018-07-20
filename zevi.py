@@ -276,7 +276,7 @@ async def jogos(*data):
 
 #Comando para consultar os jogos da liga
 @bot.command(name='popularidade', 
-                description="Verifique a opinião pública sobre algum tema baseado nos 10 twittes mais recentes. A nota varia de -1(péssima) a 1(ótima).",
+                description="Verifique a opinião pública sobre algum tema baseado nos 10 twittes mais recentes. A nota varia de -1(negativa) a 1(positiva).",
                 brief="Cheque a opinião pública sobre algo.", 
                 aliases=[ 'publico'],
                 pass_context=False)  
@@ -312,13 +312,13 @@ async def popularidade(*assunto):
                 soma=soma+s
             media=soma/len(sentimentos)
             if (media>0.5):
-                op='excelente!'
+                op='positiva.'
             elif(media>0):
-                op='boa até.'
+                op='um pouco positiva.'
             elif(media>-0,5):
-                op='bem ruinzinha.'
+                op='um pouco negativa.'
             else:
-                op='desastrosa!.'
+                op='negativa.'
             op="A opinião publica sobre "+busca+"é "+op
             await bot.say(op)
 
