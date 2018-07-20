@@ -18,7 +18,7 @@ import datetime                                                     #Biblioteca 
 from repustate import Client                                        #Biblioteca para fazer análise de sentimento
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
-#Vamos montar nossa private_key do Google
+#Vamos montar nossa private key do google
 var_amb=os.environ["private_key"]   #Recebemos a variável
 dividido=var_amb.split("\\n")       #Dividimos onde tem \n
 chave=""                            #Onde vamos remontar
@@ -299,11 +299,11 @@ async def popularidade(*assunto):
             if (len(frase)==0):             #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
-                idioma=client.detect_language(frase)['language'].split('_')[0]) #Detectamos o idioma
+                idioma=client.detect_language(frase)['language'].split('_')[0] #Detectamos o idioma
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
-                    sentimentos.append(float(rep['score']),emoji=0)      #Salvamos o resultado
+                    sentimentos.append(float(rep['score']))      #Salvamos o resultado
                 
         if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
             await bot.say("Ninguém mais fala disso.")
