@@ -301,6 +301,7 @@ async def popularidade(*assunto):
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
                 idioma=detect(frase)        #Detectamos o idioma
+                print(idioma)
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
