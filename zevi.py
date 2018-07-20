@@ -5,25 +5,22 @@
 ##Mais informações:     https://github.com/SapoGitHub/Ze-VI/wiki
 ##2018
 
-import random                       #Biblioteca para comandos aleatorios
-import discord                      #Biblioteca para trabalhar com o discord
-from discord.ext import commands
-import tweepy   #Biblioteca para lidar com o Twitter
-import json     #Biblioteca para lidar com o JSON
-import sys      #Módulo que prove recursos relacionados ao interpretador
-import os       #Biblioteca para lidar com o Sistema Operacional
+import random                                                       #Biblioteca para comandos aleatorios
+import discord                                                      #Biblioteca para trabalhar com o discord
+from discord.ext import commands                                    
+import tweepy                                                       #Biblioteca para lidar com o Twitter
+import json                                                         #Biblioteca para lidar com o JSON
+import sys                                                          #Biblioteca que prove recursos relacionados ao interpretador
+import os                                                           #Biblioteca para lidar com o Sistema Operacional
 import gspread                                                      #Biblioteca para lidar com planilhas
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 import datetime                                                     #Biblioteca com funções relacionadas ao tempo
+from repustate import Client                                        #Biblioteca para fazer análise de sentimento
+from langdetect import detect                                       #Biblioteca para detectar o idioma (repustate tem a função)
+
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
-token = os.environ['token']                                 #Token
-consumer_key = os.environ['consumer_key']                   #Consumer Key (API Key)
-consumer_secret = os.environ['consumer_secret']             #Consumer Secret (API Secret)
-access_token = os.environ['access_token']                   #Access Token
-access_token_secret = os.environ['access_token_secret']     #Access Token Secret
-
-#Vamos montar nossa private_key
+#Vamos montar nossa private_key do Google
 var_amb=os.environ["private_key"]   #Recebemos a variável
 dividido=var_amb.split("\\n")       #Dividimos onde tem \n
 chave=""                            #Onde vamos remontar
@@ -31,13 +28,19 @@ for linha in dividido:
     if (len(linha)>0):              #Nossa última linha é apenas '' e queremos deixar assim
         chave=chave+linha+"\n"
 
-login = {                                                                                   #Dados do API do Google
+
+token = os.environ['token']                                 #Discord: Token
+consumer_key = os.environ['consumer_key']                   #Twitter: Consumer Key (API Key)
+consumer_secret = os.environ['consumer_secret']             #Twitter: Consumer Secret (API Secret)
+access_token = os.environ['access_token']                   #Twitter: Access Token
+access_token_secret = os.environ['access_token_secret']     #Twitter: Access Token Secret
+api_key=os.environ['api_key']                               #Repustate: API KEY
+login = {                                                   #Google : Dados do API do Google
     "type": os.environ['type'],
     "private_key_id": os.environ['private_key_id'],
     "private_key": chave,
     "client_email": os.environ['client_email'],
-    "client_id": os.environ['client_id'],
-    }
+    "client_id": os.environ['client_id']}
 
 #CONFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
@@ -68,6 +71,11 @@ def conecta_planilha():
     print("Conectado ao Google.")
 
     return google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
+
+conecta_planilha()  #Vamos conectar uma vez pra testar
+#CONEXÃO REPUSTATE----------------------------------------------------------------------------------------------------------
+client = Client(api_key=api_key, version='v4')
+print("Conectado ao Repustate.") 
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 #Comando da Bola 8
@@ -128,7 +136,7 @@ async def opina(*assunto):
         else:
             await bot.say(random.choice(opiniao))
     else:
-        opiniao='Estou cansado, me pergunte mais tarde.'
+        await bot.say('Estou cansado, me pergunte mais tarde.')
         
     
 
@@ -266,6 +274,57 @@ async def jogos(*data):
     await bot.say(partidas)
     
 
+#Comando para consultar os jogos da liga
+@bot.command(name='popularidade', 
+                description="Verifique a opinião pública sobre algum tema baseado nos 10 twittes mais recentes. A nota varia de -1(péssima) a 1(ótima).",
+                brief="Cheque a opinião pública sobre algo.", 
+                aliases=[ 'publico'],
+                pass_context=False)  
+async def popularidade(*assunto):
+    #assunto    - Sobre o que a pessoa quer saber a opinião
+
+    #Línguas suportadas pelo repustate
+    linguas=('ar','zh','nl','en','fr','de','he','it','ja','ko','pl','pt','ru','es','tr','th','vi')
+
+    #vamos montar nossa expressão de busca
+    busca=''                            
+    for palavra in assunto:                      
+        busca=busca+palavra+' ' 
+
+    if (api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']>0):                   #Checamos se temos busca sobrando
+        tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(10) #Se tem buscamos
+
+        sentimentos=[]                      #Vamos guardar as frases
+        await bot.say("Deixa eu ver...")
+        for tweet in tweets:                #Vamos percorrer os tweets
+            frase=(tweet.full_text)         #E guardar a frase
+            idioma=detect(frase)            #Detectamos o idioma
+            if idioma in linguas:           #Se o repustate dá suporte
+                rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
+                if (rep['status']=='OK'):                       #Se deu certo
+                    sentimentos.append(float(rep['score']))      #Salvamos o resultado
+                
+        if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
+            await bot.say("Ninguém mais fala disso.")
+        else:                    #Se tem, calculamos a média
+            soma=0
+            for s in sentimentos:
+                soma=soma+s
+            media=soma/len(sentimentos)
+            if (media>0.5):
+                op='excelente!'
+            elif(media>0):
+                op='boa até.'
+            elif(media>-0,5):
+                op='bem ruinzinha.'
+            else:
+                op='desastrosa!.'
+            op="A opinião publica sobre "+busca+"é "+op
+            await bot.say(op)
+
+    else:                                                                                                   #Se não temos busca sobrando, avisamos
+        await bot.say('Estou cansado, me pergunte mais tarde.')
+    
 #Criamos uma categoria de comandos
 class Informativo:
     """Comandos que dão informações."""
@@ -276,7 +335,7 @@ class Informativo:
         embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
         embed.add_field (name="Descrição", value="Vamo esculachar!!")
         embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-        embed.add_field (name="Versão",value='Sou um passageiro, passageiro de algum trem.')
+        embed.add_field (name="Versão",value='Infinita Highway')
         await bot.say(embed=embed)
 
 #Adicionamos os comandos da categora informativo

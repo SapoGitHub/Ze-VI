@@ -3,3 +3,5 @@ tweepy
 gspread
 oauth2client
 PyOpenSSL
+repustate
+langdetect
