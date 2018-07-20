@@ -16,6 +16,7 @@ import gspread                                                      #Biblioteca 
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 import datetime                                                     #Biblioteca com funções relacionadas ao tempo
 from repustate import Client                                        #Biblioteca para fazer análise de sentimento
+from langdetect import detect                                       #Biblioteca para detectar língua sem limite
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
 #Vamos montar nossa private key do google
@@ -294,12 +295,12 @@ async def popularidade(*assunto):
 
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
-        for tweet in tweets:                #Vamos percorrer os tweets
-            frase=(tweet.full_text).encode('utf8')         #E guardar a frase
-            if (len(frase)==0):             #Se não tem texto
+        for tweet in tweets:                                #Vamos percorrer os tweets
+            frase=(tweet.full_text).encode('utf8')          #E guardar a frase sem emoji
+            if (len(frase)==0 or type(frase) != str ):      #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
-                idioma=client.detect_language(frase)['language'].split('_')[0] #Detectamos o idioma
+                idioma=detect(frase)        #Detectamos o idioma
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
