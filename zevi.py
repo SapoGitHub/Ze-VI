@@ -310,6 +310,7 @@ async def popularidade(*assunto):
             if (len(frase)==0 or ok== False ):      #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
+                print(frase)
                 idioma=detect(frase)        #Detectamos o idioma
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
