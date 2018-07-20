@@ -295,7 +295,7 @@ async def popularidade(*assunto):
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                #Vamos percorrer os tweets
-            frase=(tweet.full_text)         #E guardar a frase
+            frase=(tweet.full_text).encode('utf8')         #E guardar a frase
             if (len(frase)==0):             #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
