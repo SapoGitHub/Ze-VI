@@ -41,6 +41,7 @@ login = {                                                   #Google : Dados do A
     "client_email": os.environ['client_email'],
     "client_id": os.environ['client_id']}
 
+
 #CONFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
 
@@ -281,10 +282,10 @@ async def jogos(*data):
                 pass_context=False)  
 async def popularidade(*assunto):
     #assunto    - Sobre o que a pessoa quer saber a opinião
-
-    #Línguas suportadas pelo repustate
-    linguas=('ar','zh','nl','en','fr','de','he','it','ja','ko','pl','pt','ru','es','tr','th','vi')
-
+    
+    #Serviço de análise que vamos usar: Repustate, Google
+    serv='Repustate'
+    
     #vamos montar nossa expressão de busca
     busca=''                            
     for palavra in assunto:                      
@@ -297,19 +298,27 @@ async def popularidade(*assunto):
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                                #Vamos percorrer os tweets
-            frase=(tweet.full_text).translate(non_bmp_map)  #E guardar a frase sem emoji
+            frase=(tweet.full_text).translate(non_bmp_map)  #E guardar a frase sem emoji            
             try:                            #Tentamos detectar o idioma
                 idioma = detect(frase)
             except:
-                idioma="xx"                 #Se não guardamos um idioma falso               
-            if idioma in linguas:           #Se o repustate dá suporte
-                try:
-                    rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
-                except:
-                    await bot.say("Acabou minha cota de análise.")  #Ou avisamos que acabou a cota
+                idioma="xx"                 #Se não guardamos um idioma falso
+
+            if (serv=='Repustate'):
+                #Línguas suportadas pelo repustate
+                linguas=('ar','zh','nl','en','fr','de','he','it','ja','ko','pl','pt','ru','es','tr','th','vi')
+
+                if idioma in linguas:           #Se o repustate dá suporte
+                    try:
+                        rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
+                    except:
+                        await bot.say("Acabou minha cota de análise.")  #Ou avisamos que acabou a cota
+                        
+                    if (rep['status']=='OK'):                       #Se deu certo
+                        sentimentos.append(float(rep['score']))      #Salvamos o resultado
+            elif (serv=='Google'):
+                print("Ainda não configurado.")
                     
-                if (rep['status']=='OK'):                       #Se deu certo
-                    sentimentos.append(float(rep['score']))      #Salvamos o resultado
                 
         if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
             await bot.say("Ninguém mais fala disso.")
