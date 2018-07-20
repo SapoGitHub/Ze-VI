@@ -295,9 +295,6 @@ async def popularidade(*assunto):
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                #Vamos percorrer os tweets
-        non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
-        #Emojis não suportados são convertidos para caracteres suportados.
-
             frase=(tweet.full_text)         #E guardar a frase
             if (len(frase)==0):             #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
