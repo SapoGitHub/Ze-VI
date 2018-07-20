@@ -124,7 +124,7 @@ async def opina(*assunto):
         #lang="pt"  - Restringir a algum idioma
         
         non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
-        #Emojis não suportados são convertidos para caracteres suportados.
+        #Emojis não suportados são convertidos para caracteres suportados. 
 
         opiniao=[]              #Vamos construir um vetor com os tweets
         for tweet in tweets:
@@ -293,15 +293,25 @@ async def popularidade(*assunto):
     if (api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']>0):                   #Checamos se temos busca sobrando
         tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(100) #Se tem buscamos
 
+        non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd)
+        #Emojis não suportados são convertidos para caracteres suportados. 
         sentimentos=[]                      #Vamos guardar as frases
         await bot.say("Deixa eu ver...")
         for tweet in tweets:                                #Vamos percorrer os tweets
-            frase=(tweet.full_text).encode('utf8')          #E guardar a frase sem emoji
-            if (len(frase)==0 or type(frase) != str ):      #Se não tem texto
+            frase=(tweet.full_text).translate(non_bmp_map)) #E guardar a frase sem emoji
+            ok=False                                         #Se o texto pode ser traduzido
+
+            for palavra in frase:                           #Vamos analizar letra por letra
+                assi=ord(palavra)                           #Pegar o código ASCI da letra
+                if ((assi>=65 and assi<=90) or (assi>=97 and assi<=122)or (assi>=192 and assi<=255)) #Se for uma letra
+                    ok= True                                #Pode ser traduzido
+                    break                                   #Retornamos
+                
+            for palavra em 
+            if (len(frase)==0 or ok== False ):      #Se não tem texto
                 idioma='xx'                 #Adicionamos um codigo flaso
             else:                           #Se tem, detectamos o idioma
                 idioma=detect(frase)        #Detectamos o idioma
-                print(idioma)
             if idioma in linguas:           #Se o repustate dá suporte
                 rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                 if (rep['status']=='OK'):                       #Se deu certo
