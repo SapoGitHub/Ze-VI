@@ -10,6 +10,9 @@ from discord.ext import commands
 import tweepy                                                       #Biblioteca para lidar com o Twitter
 import os                                                           #Biblioteca para lidar com o Sistema Operacional
 from repustate import Client                                        #Biblioteca para fazer análise de sentimento
+import json                                                         #Biblioteca para lidar com o JSON
+import gspread                                                      #Biblioteca para lidar com planilhas
+from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
 #Vamos montar nossa private key do google
@@ -34,6 +37,7 @@ login = {                                                   #Google : Dados do A
     "client_email": os.environ['client_email'],
     "client_id": os.environ['client_id']}
 
+
 #CONFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
 
@@ -51,7 +55,25 @@ print("Conectado ao Twitter.")
 
 #CONEXÃO REPUSTATE----------------------------------------------------------------------------------------------------------
 client = Client(api_key=api_key, version='v4')
-print("Conectado ao Repustate.") 
+print("Conectado ao Repustate.")
+
+#CONEXÃO GOOGLE--------------------------------------------------------------------------------------------------------------
+
+#Função para conectar à planilha
+def conecta_planilha(login):
+    #Precisamos usar o scope ao adquirir um token de acesso
+    scope = ['https://spreadsheets.google.com/feeds',
+             'https://www.googleapis.com/auth/drive']
+
+    #Obtemos as credenciais
+    credenciais = ServiceAccountCredentials.from_json_keyfile_dict(login, scope)
+
+    google = gspread.authorize(credenciais)     #Conectamos
+    print("Conectado ao Google.")
+
+    return google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
+
+conecta_planilha(login)     #Testamos a conexão
 
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 from twitter import *               #Importamos as funções relacionadas ao twitter
@@ -116,7 +138,8 @@ class OWL:
                     aliases=[ 'liga','ow','overwatch'],
                     pass_context=True)
     async def aposta(self,context,time1,placar1,x,placar2,time2,*data):
-        await bot.say(owl_aposta(context,login,time1,placar1,x,placar2,time2,*data))
+        planilha = conecta_planilha(login)
+        await bot.say(owl_aposta(context,planilha,time1,placar1,x,placar2,time2,*data))
 
     #Comando para consultar os jogos da liga
     @commands.command(name='jogos', 
@@ -125,7 +148,8 @@ class OWL:
                     aliases=[ 'jogo'],
                     pass_context=False)  
     async def jogos(self,*data):
-        await bot.say(owl_jogos(login,*data))
+        planilha = conecta_planilha(login)
+        await bot.say(owl_jogos(planilha,*data))
 
 bot.add_cog(OWL())
 
@@ -146,11 +170,10 @@ async def ball(context):
 #Comando com informações sobre o bot
 @bot.command(brief="Sobre o bot.")
 async def info():
-    print('teste')
     embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
     embed.add_field (name="Descrição", value="Vamo esculachar!!")
     embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-    embed.add_field (name="Versão",value='Você me faz, correr demais, de atras da infinita highway')
+    embed.add_field (name="Versão",value='infinita highHHHHwaAAAAy')
     await bot.say(embed=embed)
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------

@@ -3,22 +3,8 @@ import gspread                                                      #Biblioteca 
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 import datetime                                                     #Biblioteca com funções relacionadas ao tempo
 
-#Função para conectar à planilha
-def conecta_planilha(login):
-    #Precisamos usar o scope ao adquirir um token de acesso
-    scope = ['https://spreadsheets.google.com/feeds',
-             'https://www.googleapis.com/auth/drive']
-
-    #Obtemos as credenciais
-    credenciais = ServiceAccountCredentials.from_json_keyfile_dict(login, scope)
-
-    google = gspread.authorize(credenciais)     #Conectamos
-    print("Conectado ao Google.")
-
-    return google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
-
 #Descrição do comando da aposta:
-def owl_aposta(context,login,time1,placar1,x,placar2,time2,*data):
+def owl_aposta(context,planilha,time1,placar1,x,placar2,time2,*data):
     #context    - Informações sobre a mensagem que foi enviada.
     #time1      - Nome de algum time
     #placar1    - Placar correspondente a este time
@@ -26,8 +12,6 @@ def owl_aposta(context,login,time1,placar1,x,placar2,time2,*data):
     #time2      - Nome do outro time
     #placar2    - Placar correspondente a este outro time
     #*data      - Data da aposta (opcional)
-
-    planilha = conecta_planilha(login)      #Se conecta com a planilha
     
     apostador=str(context.message.author) #Para sabermos quem esta apostando
 
@@ -103,9 +87,8 @@ def owl_aposta(context,login,time1,placar1,x,placar2,time2,*data):
     return (fala)
 
 #Comando para ver os jogos no dia
-def owl_jogos(login,*data):
+def owl_jogos(planilha,*data):
     #*data      - Data em que queremos ver os jogos
-    planilha = conecta_planilha(login)      #Se conecta com a planilha
     
     dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
 
