@@ -41,7 +41,6 @@ login = {                                                   #Google : Dados do A
     "client_email": os.environ['client_email'],
     "client_id": os.environ['client_id']}
 
-
 #CONFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
 
@@ -275,51 +274,61 @@ async def jogos(*data):
     
 
 #Comando para consultar os jogos da liga
-@bot.command(name='popularidade', 
-                description="Verifique a opinião pública sobre algum tema baseado nos 10 twittes mais recentes. A nota varia de -1(negativa) a 1(positiva).",
-                brief="Cheque a opinião pública sobre algo.", 
-                aliases=[ 'publico'],
+@bot.command(name='popularidadebr', 
+                description="Verifique a opinião pública em português sobre algum tema baseado nos 10 twittes mais recentes. A nota varia de -1(negativa) a 1(positiva).",
+                brief="Cheque a opinião pública BR sobre algo.", 
+                aliases=[ 'publico','popularidade'],
                 pass_context=False)  
 async def popularidade(*assunto):
     #assunto    - Sobre o que a pessoa quer saber a opinião
     
-    #Serviço de análise que vamos usar: Repustate, Google
-    serv='Repustate'
-    
-    #vamos montar nossa expressão de busca
-    busca=''                            
+    serv='Repustate-pt'    #Serviço de análise que vamos usar: Repustate, Google
+    busca=''            #vamos montar nossa expressão de busca                            
     for palavra in assunto:                      
         busca=busca+palavra+' ' 
-
+    
     if (api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']>0):                   #Checamos se temos busca sobrando
-        tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(10) #Se tem buscamos
-
-        non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd) #Emojis não suportados são convertidos para caracteres suportados. 
-        sentimentos=[]                      #Vamos guardar as frases
-        await bot.say("Deixa eu ver...")
-        for tweet in tweets:                                #Vamos percorrer os tweets
-            frase=(tweet.full_text).translate(non_bmp_map)  #E guardar a frase sem emoji            
-            try:                            #Tentamos detectar o idioma
-                idioma = detect(frase)
+        
+        if (serv=='Repustate-pt'):      #Repustate pesquisando somente em pt
+            idioma='pt'                 #Idioma
+            tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", lang=idioma,tweet_mode='extended').items(100) #Se tem buscamos
+            frases=[]                           #Vamos guardar as frases
+            sentimentos=[]                      #Vamos guardar os sentimentos
+            for tweet in tweets:                #Vamos percorrer os tweets
+                frases.append(tweet.full_text)  #E guardar as frases               
+            try:
+                rep=client.bulk_sentiment(frases,lang=idioma)    #Fazemos a análise
             except:
-                idioma="xx"                 #Se não guardamos um idioma falso
-
-            if (serv=='Repustate'):
-                #Línguas suportadas pelo repustate
-                linguas=('ar','zh','nl','en','fr','de','he','it','ja','ko','pl','pt','ru','es','tr','th','vi')
-
+                await bot.say("Acabou minha cota de análise.")  #Ou avisamos que acabou a cota            
+            if (rep['status']=='OK'):                       #Se deu certo
+                for n in range(len(frases)):
+                    ide='text'+str(n)                       #anotamos o id do nosso texto
+                    sentimentos.append(float(rep['results'][ide]))#Salvamos o resultado
+                    
+        elif(serv=='Repustate'):    #Pesquisando em qualquer idioma com Repustate
+            #Línguas suportadas pelo repustate
+            linguas=('ar','zh','nl','en','fr','de','he','it','ja','ko','pl','pt','ru','es','tr','th','vi')
+            tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", tweet_mode='extended').items(10) #Se tem buscamos
+            non_bmp_map = dict.fromkeys(range(0x10000, sys.maxunicode + 1), 0xfffd) #Emojis não suportados são convertidos para caracteres suportados. 
+            sentimentos=[]                      #Vamos guardar as frases
+            await bot.say("Deixa eu ver...")
+            for tweet in tweets:                                #Vamos percorrer os tweets
+                frase=(tweet.full_text).translate(non_bmp_map)  #E guardar a frase sem emoji            
+                try:                            #Tentamos detectar o idioma
+                    idioma = detect(frase)
+                except:
+                    idioma="xx"                 #Se não guardamos um idioma falso
                 if idioma in linguas:           #Se o repustate dá suporte
                     try:
                         rep=client.sentiment(text=frase,lang=idioma)    #Fazemos a análise
                     except:
                         await bot.say("Acabou minha cota de análise.")  #Ou avisamos que acabou a cota
-                        
                     if (rep['status']=='OK'):                       #Se deu certo
                         sentimentos.append(float(rep['score']))      #Salvamos o resultado
-            elif (serv=='Google'):
-                print("Ainda não configurado.")
-                    
-                
+      
+        else:
+            print("Ainda não configurado.")
+                                    
         if (len(sentimentos)==0): #Se não tem nenhum pra análise informamos                         
             await bot.say("Ninguém mais fala disso.")
         else:                    #Se tem, calculamos a média
@@ -344,14 +353,14 @@ async def popularidade(*assunto):
 #Criamos uma categoria de comandos
 class Informativo:
     """Comandos que dão informações."""
-
     #Comando com informações sobre o bot
     @commands.command(brief="Sobre o bot.")
     async def info(self):
+        print('teste')
         embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
         embed.add_field (name="Descrição", value="Vamo esculachar!!")
         embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-        embed.add_field (name="Versão",value='Infinita Highway')
+        embed.add_field (name="Versão",value='Você me faz, correr demais, de atras da infinita highway')
         await bot.say(embed=embed)
 
 #Adicionamos os comandos da categora informativo
