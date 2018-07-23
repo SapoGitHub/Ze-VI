@@ -1,3 +1,10 @@
+##ZÉ VI: Módulo OWL
+##Desenvolvido por:     Jhordan Silveira de Borba
+##E-mail:               jhordandecacapava@gmail.com
+##Website:              https://sapogithub.github.io
+##Mais informações:     https://github.com/SapoGitHub/Ze-VI/wiki
+##2018
+
 import json                                                         #Biblioteca para lidar com o JSON
 import gspread                                                      #Biblioteca para lidar com planilhas
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google

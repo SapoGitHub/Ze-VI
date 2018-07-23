@@ -1,3 +1,10 @@
+##ZÉ VI: Módulo Twitter
+##Desenvolvido por:     Jhordan Silveira de Borba
+##E-mail:               jhordandecacapava@gmail.com
+##Website:              https://sapogithub.github.io
+##Mais informações:     https://github.com/SapoGitHub/Ze-VI/wiki
+##2018
+
 import random                                                       #Biblioteca para comandos aleatorios
 import tweepy                                                       #Biblioteca para lidar com o Twitter
 import sys                                                          #Biblioteca que prove recursos relacionados ao interpretador
