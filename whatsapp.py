@@ -47,7 +47,7 @@ def whatsapp_mensagens(driver,tamanho_max):
         else:
             return ('Sem novas mensagens.')
     except:
-        return ('Tente de novo novo.')
+        return ('Tente de novo.')
 
 
 def whatsapp_contato(driver,contato):
