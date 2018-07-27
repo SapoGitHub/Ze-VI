@@ -27,7 +27,7 @@ def gerar_qr(driver):
         driver.get("https://web.whatsapp.com")  #Abrimos a pagina do WhatsApp Web
         nimg='qr.png'                           #Nome da imagem a ser salvo
         driver.get_screenshot_as_file(nimg)     #Screenshot do navegador
-        #im = Image.open(nimg)                   #Abre a imagem
+        im = Image.open(nimg)                   #Abre a imagem
         esq=420
         cima=150
         im.crop((esq,cima,esq+304,cima+304)).save(nimg)   #Corta a imagem 

@@ -78,12 +78,14 @@ def conecta_planilha(login):
 conecta_planilha(login)     #Testamos a conexão
 
 #CONFIGURAÇÃO WHATSAPP------------------------------------------------------------------------------------------------------
+#Vamos configurar a inicialização do Google Chrome Headless no Heroku
 chrome_options = Options()
 chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument('--headless')
+#Precisamos ainda configurar o user-agent para o WhatsApp em especifico funcionar
 chrome_options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36")
 driver = webdriver.Chrome(executable_path=os.environ['CHROMEDRIVER_PATH'], chrome_options=chrome_options)
 
