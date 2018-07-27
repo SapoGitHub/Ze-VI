@@ -23,8 +23,8 @@ def whatsapp_whats(driver, destinatario,*mensagem):
     frase=''                            #Variável pra guardar a frase que vai twitar
     for palavra in mensagem:            #Vamos montar a frase, o discord pega as palavras separadas como argumentos       
         frase=frase+' '+palavra
-
     enviar_msg(driver,destinatario,frase)   #Chamamos a função para enviar a mensagem
+    return True
     
 #Função para checar quem nos enviou novas mensagens
 def whatsapp_mensagens(driver,tamanho_max):

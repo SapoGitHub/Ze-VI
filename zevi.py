@@ -203,10 +203,14 @@ class WhatsApp:
                 pass_context=True)
     async def whats(self,context,destinatario,*mensagem):
         try:
-            whatsapp_whats(driver, destinatario,*mensagem)
-            await bot.say (context.message.author,'Mensagem enviada.')
+            status=whatsapp_whats(driver, destinatario,*mensagem)
         except:
-            await bot.say (context.message.author,'Tente de novo.')
+            status=False
+
+            if (status==True):
+                await bot.say ('Mensagem enviada.')
+            else:
+                await bot.say ('Tente de novo.')
 
     #Comando para checar se temos novas mensagens no WhatsApp
     @commands.command(name='mensagens',
