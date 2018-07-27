@@ -37,7 +37,7 @@ def whatsapp_mensagens(driver,tamanho_max):
 
     try:
         contatos=novas_msgs(driver,tamanho_max)
-
+        print(mensagens)
         text='Novas mensagens de: '
         for contato in contatos:
             texto=texto+contato+', '
@@ -52,7 +52,7 @@ def whatsapp_mensagens(driver,tamanho_max):
 
 def whatsapp_contato(driver,contato):
     try:
-        (mensagens)=ult_msgs(driver,contato)
+        mensagens=ult_msgs(driver,contato)
         driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
 
         texto=contato+':\n'
