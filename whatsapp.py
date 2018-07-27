@@ -23,12 +23,12 @@ def whatsapp_whats(driver, destinatario,*mensagem):
     for palavra in mensagem:            #Vamos montar a frase, o discord pega as palavras separadas como argumentos       
         frase=frase+' '+palavra
 
-    resultado = enviar_msg(driver,destinatario,frase)   #Chamamos a função para enviar a mensagem
-
-    if (resultado == 'Ok'):
+    try:
+        enviar_msg(driver,destinatario,frase)   #Chamamos a função para enviar a mensagem
         return ('Mensagem enviada!')
-    else:
-        return ('Tente de novo')
+    except:
+        return ('Tente de novo.')
+
     
 #Função para checar novas mensagens
 def whatsapp_mensagens(driver,tamanho_max):
