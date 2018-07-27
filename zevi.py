@@ -100,9 +100,6 @@ grupos=['Nossa prole','Ahiba']
 #Quantidade máxima de conversas
 tamanho_max=len(agenda)+len(grupos)
 
-#Intervalo de leitura de novas mensagens
-intervalo=1
-
 nomes=[]        #Nomes dos contatos que enviaram mensagens
 mensagens=[]    #Mensagens enviadas pelos contatos
 

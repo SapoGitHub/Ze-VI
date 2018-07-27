@@ -64,17 +64,14 @@ def enviar_msg(driver,destinatario,msg):
         #destinatario   - Quem vai receber a mensagem
         #msg            - Mensagem a ser enviada
         
-        global intervalo
-        intervalo=60
         time.sleep(5)
-        abrir_conversa(driver,destinatario)                                            #Abrimos a conversa de quem vamos enviar
+        abrir_conversa(driver,destinatario)                                     #Abrimos a conversa de quem vamos enviar
         caminho='//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'               #Caminho da conversa
         elemento = driver.find_element_by_xpath(caminho)                        #Selecionamos o campo da mensagem
         elemento.clear()                                                        #Limpamos caso tenha alguma coisa antiga
         elemento.send_keys(msg,Keys.ENTER)                                      #Enviamos a mensagem
         time.sleep( 5 )                                         #Aguardamos enviar
         driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
-        intervalo=1
      
 #Função para lermos as ultimas mensagens enviadas de algum contato:
 def ult_msgs(driver,contato):
