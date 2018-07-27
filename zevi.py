@@ -205,7 +205,11 @@ class WhatsApp:
                 aliases=['whatsapp','Whats','WhatsApp'],
                 pass_context=True)
     async def whats(self,context,destinatario,*mensagem):
-        await bot.say (whatsapp_whats(driver, destinatario,*mensagem))
+        try:
+            whatsapp_whats(driver, destinatario,*mensagem)
+            await bot.say ('Mensagem enviada.')
+        except:
+            await bot.say ('Tente de novo.')
 
     #Comando para checar se temos novas mensagens no WhatsApp
     @commands.command(name='mensagens',
@@ -214,7 +218,11 @@ class WhatsApp:
                 aliases=['novas_mensagens'],
                 pass_context=True)
     async def mensagens(self,context):
-        await bot.say (whatsapp_mensagens(driver,tamanho_max))
+        try:
+            contatos=whatsapp_mensagens(driver,tamanho_max)
+            await bot.say (contatos)
+        except:
+            await bot.say ('Tente de novo.')
         
     #Comando para ver as ultimas mensagens sem respostas de um contato
     @commands.command(name='contato',
@@ -223,7 +231,11 @@ class WhatsApp:
                 aliases=['Contato'],
                 pass_context=True)
     async def contato(self,context,contato):
-        await bot.say ( whatsapp_contato(driver,contato)) 
+        try:
+            mensagem=whatsapp_contato(driver,contato)
+            await bot.say (mensagem)
+        except:
+            await bot.say('Tente de novo.')
  
                 
 #Salvamos os comandos
@@ -248,7 +260,7 @@ async def info():
     embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
     embed.add_field (name="Descrição", value="Vamo esculachar!!")
     embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-    embed.add_field (name="Versão",value='nnananana')
+    embed.add_field (name="Versão",value='Spelunky é um jogão!')
     await bot.say(embed=embed)
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
