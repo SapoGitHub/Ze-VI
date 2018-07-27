@@ -165,11 +165,11 @@ def novas_msgs(driver,tamanho_max):
                         pass    #Passamos e checamos todas as novas mensagens na lista
 
         #E então pegar as novas mensagens
-        nvas_msgs=[]
-        for contato in contatos:
-            msgs=ult_msgs(driver,contato)         
-            nvas_msgs.append(msgs)
-            break
-            
+##        nvas_msgs=[]
+##        for contato in contatos:
+##            msgs=ult_msgs(driver,contato)         
+##            nvas_msgs.append(msgs)
+##            break
+##            
         driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
-        return(contatos,nvas_msgs)
+        return(contatos)#,nvas_msgs)

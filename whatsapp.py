@@ -35,18 +35,13 @@ def whatsapp_mensagens(driver,tamanho_max):
     #driver         - Conexão com o Chrome
     #tamanho_max    - Quantidade de contatos e grupos
 
-
     try:
-        (contatos,mensagens)=novas_msgs(driver,tamanho_max)
-        texto=''
-        k=0
+        (contatos)=novas_msgs(driver,tamanho_max)
+
+        text='Novas mensagens de: '
         for contato in contatos:
-            texto=texto+contato+':\n'
-            tam=len(mensagens[k])
-            for n in range(tam-1,-1,-1):
-                texto=texto+mensagens[k][n]+'\n'
-            texto=texto+'\n'
-            k=k+1
+            texto=texto+contato+', '
+
         if (len(contatos)>0):
             return texto
         else:
