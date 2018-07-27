@@ -5,5 +5,5 @@ oauth2client
 PyOpenSSL
 repustate
 langdetect
-PIL
+Pillow
 selenium
