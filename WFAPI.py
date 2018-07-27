@@ -175,5 +175,4 @@ def novas_msgs(driver,tamanho_max):
             nvas_msgs.append(msgs)
             
         driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
-        time.sleep(3)                           #Espera
         return(contatos,nvas_msgs)
