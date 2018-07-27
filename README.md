@@ -7,3 +7,11 @@ Depois disso, um terceiro aplicativo foi criado no [Heroku](https://dashboard.he
 
 
 Ainda além dos aplicativos também criamos um projeto no [Google APIs](https://console.developers.google.com/apis/dashboard?), onde ativamos o Google Drive API e Google Sheets API, ainda geramos uma credencial do tipo "Chave da conta de serviço" do tipo "JSON". Depois precisamos pegar o "client_email" dentro deste arquivo JSON e compartilharmos com ele a planilha que queremos ter acesso.
+
+## Módulo WhatsApp
+
+O módulo do WhatsApp tem algumas limitações conhecidas:
+- Todas mencionadas no [WFAPI](https://github.com/SapoGitHub/Repositorio-Geral/tree/master/WFAPI);
+- Só pode checar novas mensagens por comando;
+- Prefência enviar mensagens entre aspas (!whats contato "mensagem completa")
+- Problema quando reabrimos o bot e não foi removido a conexão com o WhatsApp web anterior.

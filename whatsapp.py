@@ -39,7 +39,7 @@ def whatsapp_mensagens(driver,tamanho_max):
     #try:           #Tentamos checar
     contatos=novas_msgs(driver,tamanho_max) #Pegamos quem nos enviou novas mensagens
     print(contatos)
-    text='Novas mensagens de: '             #Montamos nosso texto
+    texto='Novas mensagens de: '             #Montamos nosso texto
     for contato in contatos:
         texto=texto+contato+', '
 
