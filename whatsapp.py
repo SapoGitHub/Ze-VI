@@ -48,10 +48,10 @@ def whatsapp_mensagens(driver,tamanho_max):
             texto=texto+'\n'
             k=k+1
         if (len(contatos)>0):
-            print('O texto é:\n'+texto)
+#            print('O texto é:\n'+texto)
             return texto
         else:
-            print('Sem mensagem.')
+#            print('Sem mensagem.')
             return ('Sem novas mensagens.')
     except:
         return ('Tente de novo novo.')
@@ -66,7 +66,7 @@ def whatsapp_contato(driver,contato):
         tam=len(mensagens)
         for n in range(tam-1,-1,-1):
             texto=texto+mensagens[n]+'\n'
-            texto=texto+'\n'
+#            texto=texto+'\n'
         
         if (len(mensagens)>0):
     #        print('O texto é:\n'+texto)
