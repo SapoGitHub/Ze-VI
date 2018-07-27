@@ -36,19 +36,19 @@ def whatsapp_mensagens(driver,tamanho_max):
     #driver         - Conexão com o Chrome
     #tamanho_max    - Quantidade de contatos e grupos
 
-    #try:           #Tentamos checar
-    contatos=novas_msgs(driver,tamanho_max) #Pegamos quem nos enviou novas mensagens
-    print(contatos)
-    texto='Novas mensagens de: '             #Montamos nosso texto
-    for contato in contatos:
-        texto=texto+contato+', '
+    try:           #Tentamos checar
+        contatos=novas_msgs(driver,tamanho_max) #Pegamos quem nos enviou novas mensagens
+        print(contatos)
+        texto='Novas mensagens de: '             #Montamos nosso texto
+        for contato in contatos:
+            texto=texto+contato+', '
 
-    if (len(contatos)>0):                   #Se alguém nos enviou
-        return texto                        #Retornamos a mensagem
-    else:
-        return ('Sem novas mensagens.')     #Ou avisamos que não há novas
-    #except:
-    #   return ('Tente de novo.')           #Ou ainda avisamos que não conseguimso checar
+        if (len(contatos)>0):                   #Se alguém nos enviou
+            return texto                        #Retornamos a mensagem
+        else:
+            return ('Sem novas mensagens.')     #Ou avisamos que não há novas
+    except:
+       return ('Tente de novo.')           #Ou ainda avisamos que não conseguimso checar
 
 
 #Função para checar as últimas mensagens sem respostas de algum contato

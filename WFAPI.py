@@ -84,6 +84,7 @@ def ult_msgs(driver,contato):
         time.sleep(1)   
         abrir_conversa(driver,contato)     #Abrimos a conversa
         time.sleep(3) 
+
         #Checamos se tem mais mensagem ou não
         cam='//*[@id="main"]/div[2]/div/div/div[2]/div'
         elemento = driver.find_element_by_xpath(cam)
@@ -113,25 +114,22 @@ def ult_msgs(driver,contato):
                                 msg.append(texto)
                                 classes.append(classe)
                         except:
-                                #print('Problemas em pegar o texto.')
                                 pass
                 except:
-                        #print('Problemas em pegar a classe')
                         pass
             except:
-                #print('Não há mais mensagens novas')
                 break
-        qt=len(classes)
-        final=[]
-        #print(msg)
-        #print(classes)
-        for x in range(qt-1,0,-1):
-                if ('message-in' in classes[x]):
-                        final.append(msg[x])        
-                else:
-                        break
 
-        return final
+
+        qt=len(classes)                 #A quantidade de elementos que pegamos
+        final=[]                        #Nosso resultado final
+        for x in range(qt-1,0,-1):      #Começamos do fim pro começo
+                if ('message-in' in classes[x]):        #Se é uma mensagem recebida
+                        final.append(msg[x])            #Salvamos
+                else:                   #Se não
+                        break           #Paramos
+
+        return final                    #Retornamos a mensagem final
 
 
 #Função para checar se tem novas mensagens não lidas
