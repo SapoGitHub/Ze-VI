@@ -12,6 +12,9 @@ import time
 
 #Função para definir o máximo possivel de conversas a serem carregadas
 def tamanho(driver,tamanho_max):
+        #driver         - Conexão com o Chrome
+        #tamanho_max    - Quantidade de contatos na agenda e grupos
+
         n=0     #Contador
         for x in range(1,(tamanho_max+1)):   
                 caminho='//*[@id="pane-side"]/div/div/div/div['+str(x)+']'      #Caminho para o div mais alto de um contato na lista de conversas
@@ -24,6 +27,8 @@ def tamanho(driver,tamanho_max):
 
 #Função pra gerar o QR  code
 def gerar_qr(driver):
+        #driver         - Conexão com o Chrome
+
         driver.get("https://web.whatsapp.com")  #Abrimos a pagina do WhatsApp Web
         nimg='qr.png'                           #Nome da imagem a ser salvo
         driver.get_screenshot_as_file(nimg)     #Screenshot do navegador
@@ -33,35 +38,11 @@ def gerar_qr(driver):
         im.crop((esq,cima,esq+304,cima+304)).save(nimg)   #Corta a imagem 
         return nimg
 
-#Função para abrir a conversa pela pesquisa -- DEPRECIADO
-def abrir_conversa_pesquisa(driver,tamanho_max,contato):
-        #contato   - Quem vamos abrir as mensagens
-
-        caminho='//*[@id="side"]/div[2]/div/label/input'        #Caminho para "Procurar ou começar uma nova conversa"
-        elemento = driver.find_element_by_xpath(caminho)        #Pegamos o elemento
-        elemento.clear()                                        #Limpamos caso tenha alguma pesquisa antiga
-        elemento.send_keys(contato)                             #Digitamos o destinatário
-        time.sleep( 5 )                                         #Esperamos para fazer a busca
-        n=tamanho(driver,tamanho_max)                                             #Tamanho max
-        for x in range(1,n+1):   #Checamos todos possíveis resultados
-                caminho='//*[@id="pane-side"]/div/div/div/div['+str(x)+']/div/div/div[2]/div[1]/div[1]/span/span'       #Caminho para o nome do contato
-                try:                                                                                                    #Tentamos checar o resultado
-                        elemento = driver.find_element_by_xpath(caminho)                                                #Pegamos o elemento
-                        if (elemento.get_attribute('title')==contato):                                                  #Comparamos o nome com o nosso objetivo
-                                caminho='//*[@id="pane-side"]/div/div/div/div['+str(x)+']/div/div'                      #Se for, salvamos o caminho pro elemento do resultado
-                                break                                                                                   #E saímos do for
-                except:                                                                                                 #Se não funcionar
-                        pass                                                                                            #Tentamos o próximo resultado
-        elemento = driver.find_element_by_xpath(caminho)                        #Pegamos o elemento
-        elemento.click()                                                        #Clicamos
-        caminho='//*[@id="side"]/div[2]/div/button'                             #Caminho para o botão de voltar
-        elemento = driver.find_element_by_xpath(caminho)                        #Pegamos o elemento
-        elemento.click()                                                        #Clicamos
-        return
 
 #Função para abrir conversa pela busca de contatos
 def abrir_conversa(driver,contato):
-        #contato   - Quem vamos abrir as mensagens
+        #driver         - Conexão com o Chrome
+        #contato        - Quem vamos abrir as mensagens
         
         time.sleep(3)                                           #Aguardar um tempo
         caminho='//*[@id="side"]/header/div[2]/div/span/div[2]' #Caminho para o botão de nova conversa
@@ -79,6 +60,7 @@ def abrir_conversa(driver,contato):
 
 #Função para enviar mensagem
 def enviar_msg(driver,destinatario,msg):
+        #driver         - Conexão com o Chrome
         #destinatario   - Quem vai receber a mensagem
         #msg            - Mensagem a ser enviada
         
@@ -96,6 +78,9 @@ def enviar_msg(driver,destinatario,msg):
      
 #Função para lermos as ultimas mensagens enviadas de algum contato:
 def ult_msgs(driver,contato):
+        #driver         - Conexão com o Chrome
+        #contato        - Quem queremos ver as últimas mensagens
+
         time.sleep(1)   
         abrir_conversa(driver,contato)     #Abrimos a conversa
         time.sleep(3) 
@@ -151,6 +136,9 @@ def ult_msgs(driver,contato):
 
 #Função para checar se tem novas mensagens não lidas
 def novas_msgs(driver,tamanho_max):
+        #driver         - Conexão com o Chrome
+        #tamanho_max    - Quantidade de contatos na agenda e grupos
+        
         contatos=[]             #Onde vamos guardar quem nos enviou as mensagens não lidas
         n=tamanho(driver,tamanho_max)             #Tamanho max
 

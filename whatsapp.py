@@ -14,6 +14,7 @@ def whatsapp_qr(driver):
     
     return gerar_qr(driver)
 
+#Função para enviar mensagem
 def whatsapp_whats(driver, destinatario,*mensagem):
     #driver         - Conexão com o Chrome
     #destinatario   - Quem deve receber nossa mensagem
@@ -25,29 +26,29 @@ def whatsapp_whats(driver, destinatario,*mensagem):
 
     try:
         enviar_msg(driver,destinatario,frase)   #Chamamos a função para enviar a mensagem
-        return ('Mensagem enviada!')
+        return ('Mensagem enviada!')            #Se tivemos sucesso informamos
     except:
-        return ('Tente de novo.')
+        return ('Tente de novo.')               #Se encontramos um erro reportamos
 
     
-#Função para checar novas mensagens
+#Função para checar quem nos enviou novas mensagens
 def whatsapp_mensagens(driver,tamanho_max):
     #driver         - Conexão com o Chrome
     #tamanho_max    - Quantidade de contatos e grupos
 
-    try:
-        contatos=novas_msgs(driver,tamanho_max)
-        print(mensagens)
-        text='Novas mensagens de: '
-        for contato in contatos:
-            texto=texto+contato+', '
+    #try:
+    contatos=novas_msgs(driver,tamanho_max)
+    print(contatos)
+    text='Novas mensagens de: '
+    for contato in contatos:
+        texto=texto+contato+', '
 
-        if (len(contatos)>0):
-            return texto
-        else:
-            return ('Sem novas mensagens.')
-    except:
-        return ('Tente de novo.')
+    if (len(contatos)>0):
+        return texto
+    else:
+        return ('Sem novas mensagens.')
+    #except:
+    #   return ('Tente de novo.')
 
 
 def whatsapp_contato(driver,contato):
