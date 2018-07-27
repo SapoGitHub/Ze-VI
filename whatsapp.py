@@ -8,7 +8,10 @@
 import discord                                                      #Biblioteca para trabalhar com o discord
 from WFAPI import *     #Importamos as funções relacionadas ao WFAPI
 
+#Funçao para obter o QR code
 def whatsapp_qr(driver):
+    #driver         - Conexão com o Chrome
+    
     return gerar_qr(driver)
 
 def whatsapp_whats(driver, destinatario,*mensagem):
@@ -20,51 +23,58 @@ def whatsapp_whats(driver, destinatario,*mensagem):
     for palavra in mensagem:            #Vamos montar a frase, o discord pega as palavras separadas como argumentos       
         frase=frase+' '+palavra
 
-    enviar_msg(driver,destinatario,frase)
-    return 'Mensagem enviada!'
+    resultado = enviar_msg(driver,destinatario,frase)   #Chamamos a função para enviar a mensagem
 
+    if (resultado == 'Ok')
+        return ('Mensagem enviada!')
+    else:
+        return ('Tente de novo')
+    
+#Função para checar novas mensagens
 def whatsapp_mensagens(driver,tamanho_max):
-    while True:
-        try:
-            (contatos,mensagens)=novas_msgs(driver,tamanho_max)
-            texto=''
-            k=0
-            for contato in contatos:
-                texto=texto+contato+':\n'
-                tam=len(mensagens[k])
-                for n in range(tam-1,-1,-1):
-                    texto=texto+mensagens[k][n]+'\n'
-                texto=texto+'\n'
-                k=k+1
-            if (len(contatos)>0):
-                print('O texto é:\n'+texto)
-                return texto
-            else:
-                print('Sem mensagem.')
-                return ('Sem novas mensagens.')
-        except:
-            print('Checando de novo.')
+    #driver         - Conexão com o Chrome
+    #tamanho_max    - Quantidade de contatos e grupos
+
+
+    try:
+        (contatos,mensagens)=novas_msgs(driver,tamanho_max)
+        texto=''
+        k=0
+        for contato in contatos:
+            texto=texto+contato+':\n'
+            tam=len(mensagens[k])
+            for n in range(tam-1,-1,-1):
+                texto=texto+mensagens[k][n]+'\n'
+            texto=texto+'\n'
+            k=k+1
+        if (len(contatos)>0):
+            print('O texto é:\n'+texto)
+            return texto
+        else:
+            print('Sem mensagem.')
+            return ('Sem novas mensagens.')
+    except:
+        return ('Tente de novo novo.')
 
 
 def whatsapp_contato(driver,contato):
-    while True:
-        try:
-            (mensagens)=ult_msgs(driver,contato)
-            driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
+    try:
+        (mensagens)=ult_msgs(driver,contato)
+        driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
 
-            texto=contato+':\n'
-            tam=len(mensagens)
-            for n in range(tam-1,-1,-1):
-                texto=texto+mensagens[n]+'\n'
-                texto=texto+'\n'
-            
-            if (len(mensagens)>0):
-        #        print('O texto é:\n'+texto)
-                return texto
-            else:
-       #         print('Sem mensagem.')
-                return ('Sem mensagens não respondidas.')
-        except:
-            print('Checando de novo.')
+        texto=contato+':\n'
+        tam=len(mensagens)
+        for n in range(tam-1,-1,-1):
+            texto=texto+mensagens[n]+'\n'
+            texto=texto+'\n'
+        
+        if (len(mensagens)>0):
+    #        print('O texto é:\n'+texto)
+            return texto
+        else:
+   #         print('Sem mensagem.')
+            return ('Sem mensagens não respondidas.')
+    except:
+        print('Tente de novo.')
 
 print ('Módulo do WhatsApp importado.')

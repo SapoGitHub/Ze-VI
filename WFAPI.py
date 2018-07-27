@@ -29,7 +29,7 @@ def gerar_qr(driver):
         driver.get_screenshot_as_file(nimg)     #Screenshot do navegador
         im = Image.open(nimg)                   #Abre a imagem
         esq=420
-        cima=150
+        cima=130
         im.crop((esq,cima,esq+304,cima+304)).save(nimg)   #Corta a imagem 
         return nimg
 
@@ -81,23 +81,22 @@ def abrir_conversa(driver,contato):
 def enviar_msg(driver,destinatario,msg):
         #destinatario   - Quem vai receber a mensagem
         #msg            - Mensagem a ser enviada
-
-        while (True):
-                try:
-                        global intervalo
-                        intervalo=60
-                        time.sleep(5)
-                        abrir_conversa(driver,destinatario)                                            #Abrimos a conversa de quem vamos enviar
-                        caminho='//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'               #Caminho da conversa
-                        elemento = driver.find_element_by_xpath(caminho)                        #Selecionamos o campo da mensagem
-                        elemento.clear()                                                        #Limpamos caso tenha alguma coisa antiga
-                        elemento.send_keys(msg,Keys.ENTER)                                      #Enviamos a mensagem
-                        time.sleep( 5 )                                         #Aguardamos enviar
-                        driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
-                        intervalo=1
-                        return
-                except:
-                        print('Tentando enviar novamente.')
+        
+        try:
+                global intervalo
+                intervalo=60
+                time.sleep(5)
+                abrir_conversa(driver,destinatario)                                            #Abrimos a conversa de quem vamos enviar
+                caminho='//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'               #Caminho da conversa
+                elemento = driver.find_element_by_xpath(caminho)                        #Selecionamos o campo da mensagem
+                elemento.clear()                                                        #Limpamos caso tenha alguma coisa antiga
+                elemento.send_keys(msg,Keys.ENTER)                                      #Enviamos a mensagem
+                time.sleep( 5 )                                         #Aguardamos enviar
+                driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
+                intervalo=1
+                return ('Ok')
+        except:
+                return ('Tente de novo')
 
 #Função para lermos as ultimas mensagens enviadas de algum contato:
 def ult_msgs(driver,contato):
