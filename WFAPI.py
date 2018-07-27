@@ -64,7 +64,7 @@ def enviar_msg(driver,destinatario,msg):
         #destinatario   - Quem vai receber a mensagem
         #msg            - Mensagem a ser enviada
         
-        time.sleep(5)
+        time.sleep(1)
         abrir_conversa(driver,destinatario)                                     #Abrimos a conversa de quem vamos enviar
         caminho='//*[@id="main"]/footer/div[1]/div[2]/div/div[2]'               #Caminho da conversa
         elemento = driver.find_element_by_xpath(caminho)                        #Selecionamos o campo da mensagem
@@ -127,6 +127,7 @@ def ult_msgs(driver,contato):
                 else:                   #Se não
                         break           #Paramos
 
+        driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
         return final                    #Retornamos a mensagem final
 
 
