@@ -36,7 +36,7 @@ def whatsapp_mensagens(driver,tamanho_max):
     #tamanho_max    - Quantidade de contatos e grupos
 
     try:
-        (contatos)=novas_msgs(driver,tamanho_max)
+        contatos=novas_msgs(driver,tamanho_max)
 
         text='Novas mensagens de: '
         for contato in contatos:
