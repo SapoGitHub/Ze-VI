@@ -28,7 +28,9 @@ def gerar_qr(driver):
         nimg='qr.png'                           #Nome da imagem a ser salvo
         driver.get_screenshot_as_file(nimg)     #Screenshot do navegador
         #im = Image.open(nimg)                   #Abre a imagem
-        #im.crop((656,132,960,436)).save(nimg)   #Corta a imagem 
+        esq=420
+        cima=150
+        im.crop((esq,cima,esq+304,cima+304)).save(nimg)   #Corta a imagem 
         return nimg
 
 #Função para abrir a conversa pela pesquisa -- DEPRECIADO
