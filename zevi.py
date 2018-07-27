@@ -82,7 +82,8 @@ chrome_options = Options()
 chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
 chrome_options.add_argument('--disable-gpu')
 chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument("--disable-dev-shm-usage");
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument('--headless')
 driver = webdriver.Chrome(executable_path=os.environ['CHROMEDRIVER_PATH'], chrome_options=chrome_options)
 
 #Minha lista de contatos que converso
