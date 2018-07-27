@@ -70,8 +70,10 @@ def enviar_msg(driver,destinatario,msg):
         elemento = driver.find_element_by_xpath(caminho)                        #Selecionamos o campo da mensagem
         elemento.clear()                                                        #Limpamos caso tenha alguma coisa antiga
         elemento.send_keys(msg,Keys.ENTER)                                      #Enviamos a mensagem
-        time.sleep( 5 )                                         #Aguardamos enviar
-        driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
+        time.sleep( 5 )                                                         #Aguardamos enviar
+        driver.get("https://web.whatsapp.com")                                  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
+        print('Mensagem enviada')
+        return
      
 #Função para lermos as ultimas mensagens enviadas de algum contato:
 def ult_msgs(driver,contato):
