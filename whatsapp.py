@@ -25,7 +25,7 @@ def whatsapp_whats(driver, destinatario,*mensagem):
 
     resultado = enviar_msg(driver,destinatario,frase)   #Chamamos a função para enviar a mensagem
 
-    if (resultado == 'Ok')
+    if (resultado == 'Ok'):
         return ('Mensagem enviada!')
     else:
         return ('Tente de novo')
