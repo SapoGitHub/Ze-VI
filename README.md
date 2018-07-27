@@ -17,4 +17,5 @@ O módulo do WhatsApp tem algumas limitações conhecidas:
 - Nenhuma função pode levar mais de 1 minuto ou o Discsord dá erro;
 - Visualiza a conversa com o contato enquanto envia a mensagem para o mesmo.
 - Recomendado não estar recebendo novas mensagens enquanto checa novas mensagens na conversa;
-- Esperar as repostas dos comandos antes de enviar um novo.
+- Esperar as repostas dos comandos antes de enviar um novo;
+- Não enviar muitas mensagens ao mesmo tempo, melhor enviar uma mensagen grande.

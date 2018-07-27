@@ -207,10 +207,11 @@ class WhatsApp:
         except:
             status=False
 
-            if (status==True):
-                await bot.say ('Mensagem enviada.')
-            else:
-                await bot.say ('Tente de novo.')
+        print(status)
+        if (status==True):
+            await bot.say ('Mensagem enviada.')
+        else:
+            await bot.say ('Tente de novo.')
 
     #Comando para checar se temos novas mensagens no WhatsApp
     @commands.command(name='mensagens',
