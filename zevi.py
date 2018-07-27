@@ -77,7 +77,11 @@ def conecta_planilha(login):
 conecta_planilha(login)     #Testamos a conexão
 
 #CONFIGURAÇÃO WHATSAPP------------------------------------------------------------------------------------------------------
-#driver = webdriver.Chrome()                     #Conectamos no Chrome
+chrome_options = Options()
+chrome_options.binary_location = GOOGLE_CHROME_BIN
+chrome_options.add_argument('--disable-gpu')
+chrome_options.add_argument('--no-sandbox')
+driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
 #Minha lista de contatos que converso
 agenda=['Vô','Amor','Paloma','Vinicius','Vó','Mãe','Pai','Gra','Bruno',
