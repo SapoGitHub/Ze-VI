@@ -169,6 +169,7 @@ def novas_msgs(driver,tamanho_max):
         for contato in contatos:
             msgs=ult_msgs(driver,contato)         
             nvas_msgs.append(msgs)
+            break
             
         driver.get("https://web.whatsapp.com")  #Reabrimos a pagina para não ficar em nenhuma conversa aberta
         return(contatos,nvas_msgs)
