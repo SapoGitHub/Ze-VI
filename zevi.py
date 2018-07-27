@@ -13,6 +13,8 @@ from repustate import Client                                        #Biblioteca 
 import json                                                         #Biblioteca para lidar com o JSON
 import gspread                                                      #Biblioteca para lidar com planilhas
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
+from selenium import webdriver                                      #Biblioteca de automatização de tarefas no navegador
+from WFAPI import *                                                 #Importamos as funções relacionadas ao WFAPI
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
 #Vamos montar nossa private key do google
@@ -36,7 +38,6 @@ login = {                                                   #Google : Dados do A
     "private_key": chave,
     "client_email": os.environ['client_email'],
     "client_id": os.environ['client_id']}
-
 
 #CONFIGURAÇÃO DISCORD---------------------------------------------------------------------------------------------------------
 bot = commands.Bot(command_prefix='!', description='Vamo esculachar!!!')
@@ -75,9 +76,31 @@ def conecta_planilha(login):
 
 conecta_planilha(login)     #Testamos a conexão
 
+#CONFIGURAÇÃO WHATSAPP------------------------------------------------------------------------------------------------------
+driver = webdriver.Chrome()                     #Conectamos no Chrome
+
+#Minha lista de contatos que converso
+agenda=['Vô','Amor','Paloma','Vinicius','Vó','Mãe','Pai','Gra','Bruno',
+        'Flanarte','Giovani','Psico Darlen Vaz','Pedro','Zardo','Felipe',
+        'Geferson','Juan','Roger','Rafael','André Smaria','mi','Guga']
+
+#Grupos que faço parte
+grupos=['Nossa prole','Ahiba']
+
+#Quantidade máxima de conversas
+tamanho_max=len(agenda)+len(grupos)
+
+#Intervalo de leitura de novas mensagens
+intervalo=1
+
+nomes=[]        #Nomes dos contatos que enviaram mensagens
+mensagens=[]    #Mensagens enviadas pelos contatos
+
+print('Conectado ao Chrome.')
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 from twitter import *               #Importamos as funções relacionadas ao twitter
 from owl import *                   #Importamos as funções relacionadas à liga overwatch
+from whatsapp import *              #Importamos as funções relacionadas ao whatsapp
 
 #Categoria do Twitter
 class Twitter:
@@ -153,6 +176,49 @@ class OWL:
 
 bot.add_cog(OWL())
 
+#Categoria do Whatsapp
+class WhatsApp:
+    """Comandos que fazem uso do WhatsApp."""
+    #Comando para gerar o QR Code
+    @commands.command(name='qr',
+                description="Obter o QR Code.",
+                brief="Obter o QR Code.",
+                aliases=['QR','qr_code','QR_code'],
+                pass_context=True)
+    async def qr(self,context):
+        await bot.send_file (context.message.author,whatsapp_qr(driver))
+
+    #Comando para enviar mensagem
+    @commands.command(name='whats',
+                description="Comando para enviar mensagem para o WhatsApp",
+                brief="Envie mensagem pelo whats",
+                aliases=['whatsapp','Whats','WhatsApp'],
+                pass_context=True)
+    async def whats(self,context,destinatario,*mensagem):
+        await bot.say (whatsapp_whats(driver, destinatario,*mensagem))
+
+    #Comando para checar se temos novas mensagens no WhatsApp
+    @commands.command(name='mensagens',
+                description="Comando para checar novas mensagens no WhatsApp",
+                brief="Receba as mensagens do WhatsApp",
+                aliases=['novas_mensagens'],
+                pass_context=True)
+    async def mensagens(self,context):
+        await bot.say (whatsapp_mensagens(driver,tamanho_max))
+        
+    #Comando para ver as ultimas mensagens sem respostas de um contato
+    @commands.command(name='contato',
+                description="Comando para checar ultimas mensagens de algum contato no WhatsApp",
+                brief="Receba as ultimas mensagens de alguém no WhatsApp",
+                aliases=['Contato'],
+                pass_context=True)
+    async def contato(self,context,contato):
+        await bot.say ( whatsapp_contato(driver,contato)) 
+ 
+                
+#Salvamos os comandos
+bot.add_cog(WhatsApp())
+
 #Comandos sem categoria
 #Comando da Bola 8
 @bot.command(name='bola8',                                                                  #Como pode ser chamado a função no discord
@@ -162,7 +228,6 @@ bot.add_cog(OWL())
                 pass_context=True)                                                          #Se vai passar o contexto
 async def ball(context):
     #context    - Informações sobre a mensagem que foi enviada.
-    
     respostas=['sim','não']
     await bot.say(context.message.author.mention+': a resposta para sua pergunta é ... '+random.choice(respostas)+'!')          
     
@@ -173,7 +238,7 @@ async def info():
     embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
     embed.add_field (name="Descrição", value="Vamo esculachar!!")
     embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-    embed.add_field (name="Versão",value='infinita highHHHHwaAAAAy')
+    embed.add_field (name="Versão",value='nnananana')
     await bot.say(embed=embed)
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
