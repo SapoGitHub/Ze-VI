@@ -14,6 +14,7 @@ import json                                                         #Biblioteca 
 import gspread                                                      #Biblioteca para lidar com planilhas
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 from selenium import webdriver                                      #Biblioteca de automatização de tarefas no navegador
+from selenium.webdriver.chrome.options import Options
 from WFAPI import *                                                 #Importamos as funções relacionadas ao WFAPI
 
 #DADOS SENSÍVEIS----------------------------------------------------------------------------------------------------------------
