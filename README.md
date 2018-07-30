@@ -12,10 +12,18 @@ Ainda além dos aplicativos também criamos um projeto no [Google APIs](https://co
 O módulo do WhatsApp tem algumas limitações conhecidas:
 - Todas mencionadas no [WFAPI](https://github.com/SapoGitHub/Repositorio-Geral/tree/master/WFAPI);
 - Só pode checar novas mensagens por comando;
-- Prefência enviar mensagens entre aspas (<code>!whats contato "mensagem completa"</code>);
 - Problema quando reabrimos o bot e não foi removido a conexão com o WhatsApp web anterior;
 - Nenhuma função pode levar mais de 1 minuto ou o Discsord dá erro;
 - Visualiza a conversa com o contato enquanto envia a mensagem para o mesmo.
 - Recomendado não estar recebendo novas mensagens enquanto checa novas mensagens na conversa;
 - Esperar as repostas dos comandos antes de enviar um novo;
-- Não enviar muitas mensagens ao mesmo tempo, melhor enviar uma mensagen grande.
+- Não enviar muitas mensagens ao mesmo tempo. 
+	- Alternativa: enviar uma mensagen grande ou com quebra de linha dentro de aspas.
+	- Ex.:<code>!whats destinatário "Mensagem 1 \n Mensagem 2"</code>.
+- Se desconecta depois de algum tempo;
+
+Melhorias possíveis:
+- Checar ultimas mensagens do contato antes de enviar nova;
+- Agendar o envio de mensagens;
+- Realizar a transcrição de áudios;
+- Realizar a conversão de texto para áudio.
