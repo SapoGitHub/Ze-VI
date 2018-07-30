@@ -1,4 +1,4 @@
-# Zé VI
+# ZÉ VI
 
 
 Para a criação do bot, foi necessário a criação de um aplicativo no [discord](https://discordapp.com/developers/applications/), assim como também a criação de outro aplicativo no [Twitter](https://apps.twitter.com) foi necessário para realizar a integração com o mesmo. No caso do Twitter, ainda precisamos gerar nossos token de acesso (Access Token e Access Token Secret).
@@ -13,17 +13,19 @@ O módulo do WhatsApp tem algumas limitações conhecidas:
 - Todas mencionadas no [WFAPI](https://github.com/SapoGitHub/Repositorio-Geral/tree/master/WFAPI);
 - Só pode checar novas mensagens por comando;
 - Problema quando reabrimos o bot e não foi removido a conexão com o WhatsApp web anterior;
-- Nenhuma função pode levar mais de 1 minuto ou o Discsord dá erro;
 - Visualiza a conversa com o contato enquanto envia a mensagem para o mesmo.
-- Recomendado não estar recebendo novas mensagens enquanto checa novas mensagens na conversa;
 - Esperar as repostas dos comandos antes de enviar um novo;
 - Não enviar muitas mensagens ao mesmo tempo. 
 	- Alternativa: enviar uma mensagen grande ou com quebra de linha dentro de aspas.
 	- Ex.:<code>!whats destinatário "Mensagem 1 \n Mensagem 2"</code>.
-- Se desconecta depois de algum tempo;
+- Se desconecta depois de algum tempo de inatividade.
 
 Melhorias possíveis:
 - Checar ultimas mensagens do contato antes de enviar nova;
 - Agendar o envio de mensagens;
 - Realizar a transcrição de áudios;
 - Realizar a conversão de texto para áudio.
+
+Recomendações:
+- Enviar mensagens entre aspas (<code>!whats contato "mensagem completa"</code>);
+- Não estar recebendo novas mensagens enquanto checa novas mensagens na conversa.
