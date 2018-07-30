@@ -65,7 +65,7 @@ def twitter_popularidade(api,client,assunto):
     
     if (api.rate_limit_status()['resources']['search']['/search/tweets']['remaining']>0):                   #Checamos se temos busca sobrando        
         if (serv=='Repustate-pt'):      #Repustate pesquisando somente em pt
-            idioma='pt'                 #Idioma
+            idioma='en'                 #Idioma
             tweets = tweepy.Cursor(api.search, q= busca, result_type="recent", lang=idioma,tweet_mode='extended').items(100) #Se tem buscamos
             frases=[]                           #Vamos guardar as frases
             sentimentos=[]                      #Vamos guardar os sentimentos
