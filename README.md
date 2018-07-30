@@ -1,21 +1,22 @@
-# ZÈ VI
+# Z√© VI
 
 
-Para a criaÁ„o do bot, foi necess·rio a criaÁ„o de um aplicativo no [discord](https://discordapp.com/developers/applications/), assim como tambÈm a criaÁ„o de outro aplicativo no [Twitter](https://apps.twitter.com) foi necess·rio para realizar a integraÁ„o com o mesmo. No caso do Twitter, ainda precisamos gerar nossos token de acesso (Access Token e Access Token Secret).
+Para a cria√ß√£o do bot, foi necess√°rio a cria√ß√£o de um aplicativo no [discord](https://discordapp.com/developers/applications/), assim como tamb√©m a cria√ß√£o de outro aplicativo no [Twitter](https://apps.twitter.com) foi necess√°rio para realizar a integra√ß√£o com o mesmo. No caso do Twitter, ainda precisamos gerar nossos token de acesso (Access Token e Access Token Secret).
 
-Depois disso, um terceiro aplicativo foi criado no [Heroku](https://dashboard.heroku.com/apps/) unicamente para colocarmos nosso bot 24h/dia online na nuvem. Dentro do Heroku, utilizamos vari·veis de ambiente para guardar as informaÁıes sensÌveis de acesso. 
+Depois disso, um terceiro aplicativo foi criado no [Heroku](https://dashboard.heroku.com/apps/) unicamente para colocarmos nosso bot 24h/dia online na nuvem. Dentro do Heroku, utilizamos vari√°veis de ambiente para guardar as informa√ß√µes sens√≠veis de acesso. 
 
-Ainda alÈm dos aplicativos tambÈm criamos um projeto no [Google APIs](https://console.developers.google.com/apis/dashboard?), onde ativamos o Google Drive API e Google Sheets API, ainda geramos uma credencial do tipo "Chave da conta de serviÁo" do tipo "JSON". Depois precisamos pegar o "client_email" dentro deste arquivo JSON e compartilharmos com ele a planilha que queremos ter acesso.
+Ainda al√©m dos aplicativos tamb√©m criamos um projeto no [Google APIs](https://console.developers.google.com/apis/dashboard?), onde ativamos o Google Drive API e Google Sheets API, ainda geramos uma credencial do tipo "Chave da conta de servi√ßo" do tipo "JSON". Depois precisamos pegar o "client_email" dentro deste arquivo JSON e compartilharmos com ele a planilha que queremos ter acesso.
 
-## MÛdulo WhatsApp
+## M√≥dulo WhatsApp
 
-O mÛdulo do WhatsApp tem algumas limitaÁıes conhecidas:
+O m√≥dulo do WhatsApp tem algumas limita√ß√µes conhecidas:
 - Todas mencionadas no [WFAPI](https://github.com/SapoGitHub/Repositorio-Geral/tree/master/WFAPI);
-- SÛ pode checar novas mensagens por comando;
-- PrefÍncia enviar mensagens entre aspas (<code>!whats contato "mensagem completa"</code>);
-- Problema quando reabrimos o bot e n„o foi removido a conex„o com o WhatsApp web anterior;
-- Nenhuma funÁ„o pode levar mais de 1 minuto ou o Discsord d· erro;
+- S√≥ pode checar novas mensagens por comando;
+- Pref√™ncia enviar mensagens entre aspas (<code>!whats contato "mensagem completa"</code>);
+- Problema quando reabrimos o bot e n√£o foi removido a conex√£o com o WhatsApp web anterior;
+- Nenhuma fun√ß√£o pode levar mais de 1 minuto ou o Discsord d√° erro;
 - Visualiza a conversa com o contato enquanto envia a mensagem para o mesmo.
-- Recomendado n„o estar recebendo novas mensagens enquanto checa novas mensagens na conversa;
+- Recomendado n√£o estar recebendo novas mensagens enquanto checa novas mensagens na conversa;
 - Esperar as repostas dos comandos antes de enviar um novo;
-- N„o enviar muitas mensagens ao mesmo tempo, melhor enviar uma mensagen grande.
+- N√£o enviar muitas mensagens ao mesmo tempo, melhor enviar uma mensagen grande;
+- Ap√≥s muito tempo de inatividade, √© desconectado.
