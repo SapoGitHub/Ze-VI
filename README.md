@@ -8,29 +8,4 @@ Ainda além dos aplicativos também criamos um projeto no [Google APIs](https://
 
 Esse é um bot desenvolvido para meu pessoal, por isso alguns recursos se restringem a um máximo de 3 usuários específicos definidos no próprio código por exemplo, para ser utilizado em servidores maiores é necessário realizar as devidas adaptações.
 
-### Observações
-
-O módulo do WhatsApp tem algumas limitações conhecidas:
-- Todas mencionadas no [WFAPI](https://github.com/SapoGitHub/Repositorio-Geral/tree/master/WFAPI);
-- Só pode conectar um usuário ao WhatsApp Web por vez;
-- Só pode checar novas mensagens por comando;
-- Problema quando reabrimos o bot e não foi removido a conexão com o WhatsApp web anterior;
-- Visualiza a conversa com o contato enquanto envia a mensagem para o mesmo.
-- Esperar as repostas dos comandos antes de enviar um novo;
-- Não enviar muitas mensagens ao mesmo tempo. 
-	- Alternativa: enviar uma mensagen grande ou com quebra de linha dentro de aspas.
-	- Ex.:<code>!whats destinatário "Mensagem 1 \n Mensagem 2"</code>.
-- Se desconecta depois de algum tempo de inatividade.
-
-Melhorias possíveis:
-- Expandir para a utilização de até três usuários simultâneos.
-- Checar ultimas mensagens do contato antes de enviar nova;
-- Agendar o envio de mensagens;
-- Realizar a transcrição de áudios;
-- Realizar a conversão de texto para áudio.
-
-Recomendações:
-- Enviar mensagens entre aspas (<code>!whats contato "mensagem completa"</code>);
-- Não estar recebendo novas mensagens enquanto checa novas mensagens na conversa.
-
-Os comandos podem ser conferidos na [wiki](https://github.com/SapoGitHub/Ze-VI/wiki/Comandos).
+Informações mais completas sobre melhorias futuras, limitações e os comandos podem ser conferidas na [wiki](https://github.com/SapoGitHub/Ze-VI/wiki).
