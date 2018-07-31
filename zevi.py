@@ -210,8 +210,8 @@ class WhatsApp:
 
     #Comando para checar se temos novas mensagens no WhatsApp
     @commands.command(name='mensagens',
-                description="Comando para checar novas mensagens no WhatsApp",
-                brief="Receba as mensagens do WhatsApp",
+                description="Comando para checar quem lhe enviou novas mensagens no WhatsApp",
+                brief="Receba quem lhe enviou novas mensagens.",
                 aliases=['novas_mensagens'],
                 pass_context=True)
     async def mensagens(self,context):
