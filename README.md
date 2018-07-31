@@ -6,6 +6,8 @@ Depois disso, um terceiro aplicativo foi criado no [Heroku](https://dashboard.he
 
 Ainda além dos aplicativos também criamos um projeto no [Google APIs](https://console.developers.google.com/apis/dashboard?), onde ativamos o Google Drive API e Google Sheets API, ainda geramos uma credencial do tipo "Chave da conta de serviço" do tipo "JSON". Depois precisamos pegar o "client_email" dentro deste arquivo JSON e compartilharmos com ele a planilha que queremos ter acesso.
 
+Já para podermos rodar o WhatsApp, precisei utilizar dois buildpack: [Google Chrome](https://github.com/heroku/heroku-buildpack-google-chrome) e [Chromedriver](https://github.com/heroku/heroku-buildpack-chromedriver), e ainda adicionar as variáveis de ambiente o caminho do chromedriver: <code>/app/.chromedriver/bin/chromedriver</code>.
+
 Esse é um bot desenvolvido para meu pessoal, por isso alguns recursos se restringem a um máximo de 3 usuários específicos definidos no próprio código por exemplo, para ser utilizado em servidores maiores é necessário realizar as devidas adaptações.
 
 Informações mais completas sobre melhorias futuras, limitações e os comandos podem ser conferidas na [wiki](https://github.com/SapoGitHub/Ze-VI/wiki).
