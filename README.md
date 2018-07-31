@@ -10,7 +10,7 @@ Esse é um bot desenvolvido para meu pessoal, por isso alguns recursos se restri
 
 ## Módulo da OWL
 
-Utiliza os APIs do Google para conectar e editar as planilhas do Google. O bolão é salvo com o seguinte padrão:
+Utiliza as APIs do Google para conectar e editar as planilhas do Google. O bolão é salvo com o seguinte padrão:
 
 ![imagem do bolão](https://github.com/SapoGitHub/Ze-VI/blob/master/imagens/bolao.png)
 
