@@ -78,7 +78,7 @@ def conecta_planilha(login):
 conecta_planilha(login)     #Testamos a conexão
 
 #CONFIGURAÇÃO WHATSAPP------------------------------------------------------------------------------------------------------
-Vamos configurar a inicialização do Google Chrome Headless no Heroku
+#Vamos configurar a inicialização do Google Chrome Headless no Heroku
 chrome_options = Options()
 chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
 chrome_options.add_argument('--disable-gpu')
