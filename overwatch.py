@@ -1,4 +1,4 @@
-##ZÉ VI: Módulo OWL
+##ZÉ VI: Módulo overwatch
 ##Desenvolvido por:     Jhordan Silveira de Borba
 ##E-mail:               jhordandecacapava@gmail.com
 ##Website:              https://sapogithub.github.io
@@ -10,8 +10,8 @@ import gspread                                                      #Biblioteca 
 from oauth2client.service_account import ServiceAccountCredentials  #Biblioteca para gerar credenciais do tipo OAuth utilizadas pelo google
 import datetime                                                     #Biblioteca com funções relacionadas ao tempo
 
-#Descrição do comando da aposta:
-def owl_aposta(context,planilha,time1,placar1,x,placar2,time2,*data):
+#Apostar na liga
+def overwatch_aposta(context,competicao,planilha,time1,placar1,x,placar2,time2,*data):
     #context    - Informações sobre a mensagem que foi enviada.
     #time1      - Nome de algum time
     #placar1    - Placar correspondente a este time
@@ -19,22 +19,33 @@ def owl_aposta(context,planilha,time1,placar1,x,placar2,time2,*data):
     #time2      - Nome do outro time
     #placar2    - Placar correspondente a este outro time
     #*data      - Data da aposta (opcional)
+    #competicao - Determina o tipo de competicao
     
     apostador=str(context.message.author) #Para sabermos quem esta apostando
 
     #Dicionários que vamos utilizar
-    dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
-    times = {   #Sinônimos para os nomes dos times
-        "Shanghai Dragons":("shanghai","dragons","xangai dragons","shangai"),
-        "Los Angeles Gladiators":("gladiators"),
-        "San Francisco Shock":("schock","sf"),
-        "Los Angeles Valiants":("valiants"),
-        "Dallas Fuel":("dallas","fuel"),
-        "Seoul Dynasty":("seoul","seul","dynasty"),
-        "Boston Uprising":("boston","uprising"),
-        "New York Excelsior":("ny","excelsior"),
-        "London Spitfire":("london","spitfire"),
-        "Philadelphia Fusion":("philadelphia","fusion")}
+    dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","0":"DOM"} #Dias da semana
+    if (competicao=='owl'):
+        times = {   #Sinônimos para os nomes dos times
+            "Shanghai Dragons":("shanghai","dragons","shangai"),
+            "Los Angeles Gladiators":("gladiators"),
+            "San Francisco Shock":("schock","sf"),
+            "Los Angeles Valiants":("valiants"),
+            "Dallas Fuel":("dallas","fuel"),
+            "Seoul Dynasty":("seoul","seul","dynasty"),
+            "Boston Uprising":("boston","uprising"),
+            "New York Excelsior":("ny","excelsior"),
+            "London Spitfire":("london","spitfire"),
+            "Philadelphia Fusion":("philadelphia","fusion")}
+    else:
+         times = {   #Sinônimos para os nomes dos times
+            "Rússia":("russia","rússia"),
+            "Hong Kong":('hong','kong'),
+            "Taipé Chinesa":('taipe','chinesa','taipé'),
+            "Coréia":("coreia",'coréia'),
+            "Finlândia":("finlandia",'finlândia',),
+            "Japão":("japao",'japão')
+            }
     nos={"ZéRomildo#1325":5,"Fitz#0746":6,"Sapo#0431":7}    #Nossa localização na tabela
 
     if (len(data)==0):  #Se não passamos nenhuma data, é no dia de hoje a aposta
@@ -94,10 +105,10 @@ def owl_aposta(context,planilha,time1,placar1,x,placar2,time2,*data):
     return (fala)
 
 #Comando para ver os jogos no dia
-def owl_jogos(planilha,*data):
+def overwatch_jogos(planilha,*data):
     #*data      - Data em que queremos ver os jogos
     
-    dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","7":"DOM"} #Dias da semana
+    dsem = {"1":"SEG","2":"TER","3":"QUA","4":"QUI","5":"SEX","6":"SAB","0":"DOM"} #Dias da semana
 
     if (len(data)==0):  #Se não passamos nenhuma data, é do dia de hoje que queremos ver os jogos
         dia = dsem[datetime.date.today().strftime("%w")]+ " - " + datetime.date.today().strftime("%d") +"/"+datetime.date.today().strftime("%m")
@@ -115,5 +126,4 @@ def owl_jogos(planilha,*data):
              partidas=partidas+ planilha.cell(jogo.row, jogo.col+1).value+' x '+planilha.cell(jogo.row, jogo.col+3).value+"\n"
     return (partidas)
 
-
-print ("Módulo do OWL importado.")
+print ("Módulo do overwatch importado.")

@@ -73,12 +73,12 @@ def conecta_planilha(login):
     google = gspread.authorize(credenciais)     #Conectamos
     print("Conectado ao Google.")
 
-    return google.open("Bolão OWL").sheet1      #Abrimos a pagina 1 do arquivo
+    return google.open("Bolão OWL")      #Abrimos a pagina 1 do arquivo
 
 conecta_planilha(login)     #Testamos a conexão
 
 #CONFIGURAÇÃO WHATSAPP------------------------------------------------------------------------------------------------------
-#Vamos configurar a inicialização do Google Chrome Headless no Heroku
+Vamos configurar a inicialização do Google Chrome Headless no Heroku
 chrome_options = Options()
 chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
 chrome_options.add_argument('--disable-gpu')
@@ -106,7 +106,7 @@ mensagens=[]    #Mensagens enviadas pelos contatos
 print('Conectado ao Chrome.')
 #COMANDOS--------------------------------------------------------------------------------------------------------------------
 from twitter import *               #Importamos as funções relacionadas ao twitter
-from owl import *                   #Importamos as funções relacionadas à liga overwatch
+from overwatch import *             #Importamos as funções relacionadas ao Overwatch
 from whatsapp import *              #Importamos as funções relacionadas ao whatsapp
 
 #Categoria do Twitter
@@ -144,14 +144,14 @@ bot.add_cog(Twitter())
 
 
 #Categoria da liga
-class OWL:
-    """Comandos relacionados à Overwatch League"""
+class Overwatch:
+    """Comandos relacionados ao Overwatch"""
     
     #Descrição do comando da aposta:
     descri="Faça apostas nos jogos do dia da liga Overwatch usando uma palavra para cada time e com espaço entre os elementos, com a data opcional se não for no dia."
-    descri=descri+"E se tiver mais de um jogo no dia, pode especificar qual jogo.\nEx.:Para apostar no segundo jogo entre shanguai e gladiators no dia 18/07, use:\n"
+    descri=descri+"E se tiver mais de um jogo no dia, pode especificar qual jogo.\nEx.:Para apostar no segundo jogo entre shanghai e gladiators no dia 18/07, use:\n"
     descri=descri+"!aposta shanghai 3 x 0 gladiators 18/07 2.\n\nSinônimos:\n"
-    descri=descri+"Shanghai Dragons: shanghai,dragons,xangai dragons\n"
+    descri=descri+"Shanghai Dragons: shanghai,dragons\n"
     descri=descri+"Los Angeles Gladiators: gladiators\n"
     descri=descri+"San Francisco Shock: schock,sf\n"
     descri=descri+"Los Angeles Valiants: valiants\n"
@@ -162,14 +162,14 @@ class OWL:
     descri=descri+"London Spitfire: london,spitfire\n"
     descri=descri+"Philadelphia Fusion: philadelphia,fusion"
     #Comando para apostar na liga
-    @commands.command(name='aposta', 
+    @commands.command(name='Aposta', 
                     description=descri,
                     brief="Apostas do dia na Overwatch League", 
-                    aliases=[ 'liga','ow','overwatch'],
+                    aliases=['aposta', 'liga','ow','overwatch'],
                     pass_context=True)
     async def aposta(self,context,time1,placar1,x,placar2,time2,*data):
-        planilha = conecta_planilha(login)
-        await bot.say(owl_aposta(context,planilha,time1,placar1,x,placar2,time2,*data))
+        planilha = conecta_planilha(login).worksheet("Liga")
+        await bot.say(overwatch_aposta(context,'owl',planilha,time1,placar1,x,placar2,time2,*data))
 
     #Comando para consultar os jogos da liga
     @commands.command(name='jogos', 
@@ -178,10 +178,36 @@ class OWL:
                     aliases=[ 'jogo'],
                     pass_context=False)  
     async def jogos(self,*data):
-        planilha = conecta_planilha(login)
-        await bot.say(owl_jogos(planilha,*data))
+        planilha = conecta_planilha(login).worksheet("Liga")
+        await bot.say(overwatch_jogos(planilha,*data))
 
-bot.add_cog(OWL())
+    #Descrição do comando da aposta na copa:
+    descri="Faça apostas nos jogos do dia da Copa Overwatch usando uma palavra para cada time e com espaço entre os elementos, com a data opcional se não for no dia."
+    descri=descri+"E se tiver mais de um jogo no dia, pode especificar qual jogo.\nEx.:Para apostar no segundo jogo entre brasil e coreia no dia 18/07, use:\n"
+    descri=descri+"!copa brasil 3 x 0 coréia 18/07 2.\n\nSinônimos:\n"
+    descri=descri+"- Qualquer nome pode ser escrito em caixa alta ou baixa\n"
+    descri=descri+"- Acentos podem ser usados ou ignorados\n"
+    #Comando para apostar na liga
+    @commands.command(name='Copa', 
+                    description=descri,
+                    brief="Apostas do dia da Overwatch Cup", 
+                    aliases=['cup','copa','Cup'],
+                    pass_context=True)
+    async def aposta_copa(self,context,time1,placar1,x,placar2,time2,*data):
+        planilha = conecta_planilha(login).worksheet("Copa")
+        await bot.say(overwatch_aposta(context,'copa',planilha,time1,placar1,x,placar2,time2,*data))
+
+    #Comando para consultar os jogos da copa
+    @commands.command(name='Joojs', 
+                    description="Consulte os jogos do dia da copa com o padrão de data 18/07. Sem informar a data, veja os jogos de hoje.",
+                    brief="Consulte os jogos da copa", 
+                    aliases=[ 'joojs'],
+                    pass_context=False)  
+    async def jcopa(self,*data):
+        planilha = conecta_planilha(login).worksheet("Copa")
+        await bot.say(overwatch_jogos(planilha,*data))
+
+bot.add_cog(Overwatch())
 
 #Categoria do Whatsapp
 class WhatsApp:
@@ -257,7 +283,7 @@ async def info():
     embed = discord.Embed(title="Nome", description="Zé VI", color=0xeee657)
     embed.add_field (name="Descrição", value="Vamo esculachar!!")
     embed.add_field (name="Gmail e Twitter",value='zeromildobot@gmail.com  ')
-    embed.add_field (name="Versão",value='Spelunky é um jogão!')
+    embed.add_field (name="Versão",value='Spelunky é ruim!')
     await bot.say(embed=embed)
 
 #RODAR O BOT----------------------------------------------------------------------------------------------------------------
